@@ -1,0 +1,11 @@
+body {
+  background-color: #eee;
+}
+
+body main ul li {
+  background-color: white;
+  padding: 10px;
+  list-style: none;
+  margin: 10px 0;
+  border-radius: 10px;
+}

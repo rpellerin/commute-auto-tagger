@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import * as geolib from "geolib";
+import Map from "./Map";
 
 const isCommuteRide = (
   activity,
@@ -85,6 +86,7 @@ const Activities = ({ accessToken }) => {
               Day of week:{" "}
               {startDate.toLocaleDateString(undefined, { weekday: "long" })}{" "}
               <CommuteOrNotTag activity={activity} />
+              <Map activity={activity} />
             </div>
           </li>
         );
