@@ -1,4 +1,4 @@
-import L, { polyline } from "leaflet";
+import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import polyUtil from "polyline-encoded";
 import { useEffect, useRef } from "react";
@@ -16,16 +16,21 @@ const Map = ({ activity }) => {
       maxZoom: 18,
     }).addTo(map);
     const coordinates = polyUtil.decode(activity.map.summary_polyline);
-    console.log({ coordinates });
     const polyLine = L.polyline(coordinates, {
-      color: "blue",
-      weight: 2,
-      opacity: 0.7,
+      color: "#fc4c02",
+      weight: 3,
+      opacity: 1,
       lineJoin: "round",
     });
+    const beginningIcon = L.divIcon({ className: "beginning-marker" });
+    const endIcon = L.divIcon({ className: "end-marker" });
+    const beginning = coordinates[0];
+    const end = coordinates[coordinates.length - 1];
     polyLine.addTo(map);
+    L.marker(beginning, { icon: beginningIcon }).addTo(map);
+    L.marker(end, { icon: endIcon }).addTo(map);
     map.fitBounds(polyLine.getBounds());
-  }, []);
+  }, [activity.map.summary_polyline]);
   return (
     <div ref={ref} style={{ height: "200px" }}>
       {null}

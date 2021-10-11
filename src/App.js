@@ -14,10 +14,10 @@ const Login = ({ setAccessToken }) => {
         setAccessToken(accessToken)
       );
     }
-  }, []);
+  }, [setAccessToken]);
 
   return (
-    <a href="https://www.strava.com/oauth/authorize?client_id=72614&response_type=code&redirect_uri=http://localhost:3000/exchange_token&approval_prompt=auto&scope=read,activity:read_all,activity:write">
+    <a href="https://www.strava.com/oauth/authorize?client_id=72614&response_type=code&redirect_uri=http://localhost:3000/exchange_token&approval_prompt=auto&scope=read,activity:read_all,activity:write_all">
       Login with Strava
     </a>
   );
@@ -37,10 +37,10 @@ const useCurrentUser = () => {
   return { isLoggedIn, accessToken, setAccessToken };
 };
 
-function App() {
+const App = () => {
   const { isLoggedIn, accessToken, setAccessToken } = useCurrentUser();
   return (
-    <div>
+    <>
       <header>
         <h1>Commute Auto Tagger</h1>
       </header>
@@ -51,8 +51,8 @@ function App() {
           <Login setAccessToken={setAccessToken} />
         )}
       </main>
-    </div>
+    </>
   );
-}
+};
 
 export default App;
