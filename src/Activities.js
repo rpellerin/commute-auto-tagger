@@ -9,35 +9,35 @@ const dateTimeFormat = new Intl.DateTimeFormat("en", {
 });
 
 const CommuteTagAndAction = ({ activity, accessToken, onEditActivity }) => {
+  const [actionButtonDisabled, setActionButtonDisabled] = useState(false);
+
   const children = activity.commute
     ? "Marked as commute "
     : activity.potentialCommute
     ? "POTENTIAL COMMUTE"
-    : "Not a commute";
-
-  const style = {
-    padding: "10px",
-    borderRadius: "5px",
-    backgroundColor: "orange",
-    display: "inline-block",
-    fontFamily: "sans-serif",
-  };
-  if (activity.potentialCommute) {
-    style.backgroundColor = "green";
-    style.color = "white";
-    style.fontWeight = "bold";
-  }
+    : null;
 
   return (
     <>
-      <div style={style}>{children}</div>
+      {children && (
+        <div
+          className={`commute-tag ${
+            activity.potentialCommute ? "potential-commute" : ""
+          }`}
+        >
+          {children}
+        </div>
+      )}
       <div>
         <button
-          onClick={() =>
-            toggleCommuteMark({ activity, accessToken }).then((activity) =>
-              onEditActivity({ commute: activity.commute })
-            )
-          }
+          disabled={actionButtonDisabled}
+          onClick={() => {
+            setActionButtonDisabled(true);
+            toggleCommuteMark({ activity, accessToken }).then((activity) => {
+              setActionButtonDisabled(false);
+              onEditActivity({ commute: activity.commute });
+            });
+          }}
         >
           {activity.commute ? "Unmark" : "Mark"} as commute ride
         </button>
@@ -61,13 +61,17 @@ const Filters = ({
   const [checkedFilters, setCheckeFilters] = useState(filters);
 
   useEffect(() => {
+    if (stopInfiniteScroll || activities.length === 0) return () => null;
     let observer;
 
     let options = {
       threshold: 1.0,
     };
     const lastItem = document.querySelector("ul li:last-child");
-    if (!lastItem || stopInfiniteScroll) return () => null;
+    if (!lastItem) {
+      loadNextPage();
+      return () => null;
+    }
     const callback = (entries) => {
       const entry = entries[0];
       if (entry.isIntersecting) {

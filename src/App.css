@@ -51,6 +51,22 @@ body main ul li h2 {
   margin-top: 0;
 }
 
+.commute-tag {
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #fc4c02;
+  display: inline-block;
+  font-family: sans-serif;
+  color: white;
+  text-transform: uppercase;
+  margin: 5px auto;
+}
+
+.commute-tag .potential-commute {
+  background-color: "green";
+  font-weight: "bold";
+}
+
 .beginning-marker {
   background-color: green;
   border-radius: 50%;
