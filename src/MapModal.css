@@ -1,0 +1,29 @@
+.modal-wrapper > div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 50px;
+}
+
+#map-modal-content {
+  display: flex;
+  height: 100%;
+  background-color: white;
+}
+
+#map-modal-content > div:first-child {
+  flex: 0 0 auto;
+  padding: 10px;
+}
+
+#map-modal-content > div:last-child {
+  flex: 1 0 auto;
+}
+
+#map-modal-content label {
+  display: block;
+  padding: 5px 0;
+}

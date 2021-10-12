@@ -4,6 +4,7 @@ import NavBar from "./NavBar";
 import { loginWithCode, loginWithRefreshToken } from "./services/login";
 import "./App.css";
 import { ReactComponent as ConnectWithStrava } from "./images/btn_strava_connectwith_orange.svg";
+import MapModal from "./MapModal";
 
 const Login = ({ setAccessToken }) => {
   useEffect(() => {
@@ -47,6 +48,7 @@ const App = () => {
   const { isLoggedIn, accessToken, setAccessToken } = useCurrentUser();
   return (
     <>
+      <MapModal />
       <NavBar isLoggedIn={isLoggedIn} accessToken={accessToken} />
       <main>
         {isLoggedIn ? (

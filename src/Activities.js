@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import Map from "./Map";
+import ActivityMap from "./ActivityMap";
 import { hydateActivity, toggleCommuteMark } from "./services/activity";
 
 const dateTimeFormat = new Intl.DateTimeFormat("en", {
@@ -197,7 +197,7 @@ const Activities = ({ accessToken }) => {
                       }
                     />
                   </div>
-                  <Map activity={activity} />
+                  <ActivityMap activity={activity} />
                 </li>
               );
             })}

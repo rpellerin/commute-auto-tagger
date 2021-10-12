@@ -3,7 +3,7 @@ import "leaflet/dist/leaflet.css";
 import polyUtil from "polyline-encoded";
 import { useEffect, useRef } from "react";
 
-const Map = ({ activity }) => {
+const ActivityMap = ({ activity }) => {
   const ref = useRef();
   useEffect(() => {
     if (
@@ -38,4 +38,4 @@ const Map = ({ activity }) => {
   );
 };
 
-export default Map;
+export default ActivityMap;
