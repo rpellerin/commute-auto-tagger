@@ -1,5 +1,3 @@
-const CLIENT_ID = 72614;
-
 export const loginWithCode = (code) =>
   fetch("https://www.strava.com/oauth/token", {
     method: "POST",
@@ -7,7 +5,7 @@ export const loginWithCode = (code) =>
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      client_id: CLIENT_ID,
+      client_id: process.env.REACT_APP_CLIENT_ID,
       client_secret: process.env.REACT_APP_CLIENT_SECRET,
       code,
       grant_type: "authorization_code",
@@ -33,7 +31,7 @@ export const loginWithRefreshToken = (refresh_token) =>
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      client_id: CLIENT_ID,
+      client_id: process.env.REACT_APP_CLIENT_ID,
       client_secret: process.env.REACT_APP_CLIENT_SECRET,
       refresh_token,
       grant_type: "refresh_token",
