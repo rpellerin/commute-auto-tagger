@@ -77,9 +77,24 @@ const App = () => {
             </li>
           </ul>
           <details>
-            <summary>Configure your critera here</summary>
-            <button>Pick days during which you commute</button>
-            <button>Configure my zones</button>
+            <summary>
+              <h3>FAQ</h3>
+            </summary>
+            <h4>Where can I find the source code of this website?</h4>
+            <p>
+              On{" "}
+              <a href="https://github.com/rpellerin/commute-auto-tagger">
+                GitHub
+              </a>
+              .
+            </p>
+            <h4>What do you do with my data?</h4>
+            <p>
+              Nothing, your data never leaves your browser, we do not have a
+              database. We have a back-end that we use to authenticate you on
+              Strava, because we need to hide our Strava API application's
+              credentials, therefore we cannot send it to your browser.
+            </p>
           </details>
         </p>
       </div>
