@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Activities from "./Activities";
 import "./App.css";
+import NavBar from "./NavBar";
 import { loginWithCode, loginWithRefreshToken } from "./services/login";
 
 const Login = ({ setAccessToken }) => {
@@ -41,9 +42,7 @@ const App = () => {
   const { isLoggedIn, accessToken, setAccessToken } = useCurrentUser();
   return (
     <>
-      <header>
-        <h1>Commute Auto Tagger</h1>
-      </header>
+      <NavBar isLoggedIn={isLoggedIn} accessToken={accessToken} />
       <main>
         {isLoggedIn ? (
           <Activities accessToken={accessToken} />

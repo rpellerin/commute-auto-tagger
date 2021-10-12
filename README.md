@@ -9,3 +9,4 @@
 - [ ] Add backend
 - [ ] Deploy on Heroku
 - [ ] Clean components
+- [ ] Cache activities in localStorage or IndexDB

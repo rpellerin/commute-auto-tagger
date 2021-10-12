@@ -138,6 +138,7 @@ const Activities = ({ accessToken }) => {
       .then((response) => response.json())
       .then((activities) => {
         console.log("Activities", activities);
+        if (activities.errors) throw new Error(activities.message);
         if (activities.length === 0) stopInfiniteScroll.current = true;
         setActivities((oldActivities) => [...oldActivities, ...activities]);
       })
