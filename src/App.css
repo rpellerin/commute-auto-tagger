@@ -13,6 +13,7 @@ body #root {
 body header {
   display: flex;
   align-items: center;
+  margin: 0 0 40px 0;
 }
 
 body header > * {
@@ -20,7 +21,7 @@ body header > * {
 }
 
 body header > h1 {
-  margin: 0 0 40px 0;
+  margin: 0;
   flex: 1 0 auto;
   font-size: 1.5em;
 }
@@ -29,9 +30,10 @@ body header img {
   height: 40px;
   width: auto;
   border-radius: 50%;
+  margin-left: 10px;
 }
 
-body main {
+body #root {
   max-width: 900px;
   margin: 0 auto;
 }

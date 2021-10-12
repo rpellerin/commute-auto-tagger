@@ -48,8 +48,41 @@ const App = () => {
   const { isLoggedIn, accessToken, setAccessToken } = useCurrentUser();
   return (
     <>
-      <MapModal />
       <NavBar isLoggedIn={isLoggedIn} accessToken={accessToken} />
+      <div>
+        <h3>What's this website?</h3>
+        <p>
+          This website allows you to, after you connected it to your Strava,
+          list all your Strava activities and find potential commute bike rides,
+          that you may want to tag as such.
+        </p>
+        <h3>What's a potential commute?</h3>
+        <p>
+          It is a bike activity on Strava that you might have recorded during a
+          commute.
+        </p>
+        <h3>How do we determine potential commutes?</h3>
+        <p>
+          Three criteria:
+          <ul>
+            <li>
+              A bike activity that took places on some specific days of your
+              choice
+            </li>
+            <li>
+              A bike activity that starts or ends in zones your pre-configured
+            </li>
+            <li>
+              A bike activity that you have not tagged as a commute on Strava
+            </li>
+          </ul>
+          <details>
+            <summary>Configure your critera here</summary>
+            <button>Pick days during which you commute</button>
+            <button>Configure my zones</button>
+          </details>
+        </p>
+      </div>
       <main>
         {isLoggedIn ? (
           <Activities accessToken={accessToken} />

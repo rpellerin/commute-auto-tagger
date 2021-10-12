@@ -37,6 +37,7 @@ const MapModal = () => {
       setLat(e.latlng.lat);
       setLng(e.latlng.lng);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

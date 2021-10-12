@@ -15,11 +15,20 @@ const NavBar = ({ isLoggedIn, accessToken }) => {
       <h1>Commute Auto Tagger</h1>
       {isLoggedIn && (
         <>
-          <button>Set my commute criteria</button>
-          <span>
+          <a
+            href={`https://www.strava.com/athletes/${account.id}`}
+            target="_blank"
+            rel="noreferrer"
+          >
             {account.firstname} {account.lastname}
-          </span>
-          <img src={account.profile} alt="Profile" />
+          </a>
+          <a
+            href={`https://www.strava.com/athletes/${account.id}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <img src={account.profile} alt="Profile" />
+          </a>
         </>
       )}
     </header>
