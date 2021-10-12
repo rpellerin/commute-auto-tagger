@@ -3,6 +3,7 @@ import Activities from "./Activities";
 import NavBar from "./NavBar";
 import { loginWithCode, loginWithRefreshToken } from "./services/login";
 import "./App.css";
+import { ReactComponent as ConnectWithStrava } from "./images/btn_strava_connectwith_orange.svg";
 
 const Login = ({ setAccessToken }) => {
   useEffect(() => {
@@ -18,11 +19,13 @@ const Login = ({ setAccessToken }) => {
   }, [setAccessToken]);
 
   return (
-    <a
-      href={`https://www.strava.com/oauth/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&response_type=code&redirect_uri=http://localhost:3000/exchange_token&approval_prompt=auto&scope=read,activity:read_all,activity:write_all`}
-    >
-      Login with Strava
-    </a>
+    <div className="text-center">
+      <a
+        href={`https://www.strava.com/oauth/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&response_type=code&redirect_uri=http://localhost:3000/exchange_token&approval_prompt=auto&scope=read,activity:read_all,activity:write_all`}
+      >
+        <ConnectWithStrava />
+      </a>
+    </div>
   );
 };
 

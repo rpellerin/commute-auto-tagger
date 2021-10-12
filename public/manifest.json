@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Strava Commute Auto Tagger",
+  "name": "Strava Commute Auto Tagger",
   "icons": [
     {
       "src": "favicon.ico",
