@@ -57,9 +57,10 @@ const Filters = ({
   activities,
   loadNextPage,
   stopInfiniteScroll,
+  loading,
 }) => {
   const [checkedFilters, setCheckeFilters] = useState(filters);
-
+  const bottomDiv = useRef();
   useEffect(() => {
     if (stopInfiniteScroll || activities.length === 0) return () => null;
     let observer;
@@ -67,11 +68,7 @@ const Filters = ({
     let options = {
       threshold: 1.0,
     };
-    const lastItem = document.querySelector("ul li:last-child");
-    if (!lastItem) {
-      loadNextPage();
-      return () => null;
-    }
+
     const callback = (entries) => {
       const entry = entries[0];
       if (entry.isIntersecting) {
@@ -80,7 +77,7 @@ const Filters = ({
     };
 
     observer = new IntersectionObserver(callback, options);
-    observer.observe(lastItem);
+    observer.observe(bottomDiv.current);
     return () => observer.disconnect();
   }, [checkedFilters, activities, loadNextPage, stopInfiniteScroll]);
 
@@ -110,6 +107,9 @@ const Filters = ({
             .reduce((acc, fn) => acc || fn(activity), false)
         )
       )}
+      <div ref={bottomDiv}>
+        {loading ? "Loading..." : "No more activities to display"}
+      </div>
     </>
   );
 };
@@ -126,6 +126,7 @@ const Activities = ({ accessToken }) => {
   }, []);
 
   useEffect(() => {
+    console.log(`Fetching page ${currentPage}`);
     fetch(
       `https://www.strava.com/api/v3/athlete/activities?per_page=100&page=${currentPage}`,
       {
@@ -157,6 +158,7 @@ const Activities = ({ accessToken }) => {
       activities={hydratedActivities}
       loadNextPage={loadNextPage}
       stopInfiniteScroll={stopInfiniteScroll.current}
+      loading={loading}
     >
       {(filteredActivities) => (
         <>
@@ -202,7 +204,6 @@ const Activities = ({ accessToken }) => {
               );
             })}
           </ul>
-          {loading ? <div>Loading ...</div> : null}
         </>
       )}
     </Filters>

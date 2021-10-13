@@ -18,12 +18,24 @@ const blueIcon = L.icon({
   iconAnchor: [13, 50],
 });
 
-const MapModal = () => {
+const daysOfWeeks = {
+  0: "Sunday",
+  1: "Monday",
+  2: "Tuesday",
+  3: "Wednesday",
+  4: "Thursday",
+  5: "Friday",
+  6: "Saturday",
+};
+
+const MapModal = ({ onClose }) => {
   const mapDivRef = useRef();
   const mapInstanceRef = useRef();
   const marker = useRef();
+  const circle = useRef();
   const [lat, setLat] = useState(52.521465);
   const [lng, setLng] = useState(13.413099);
+  const [radius, setRadius] = useState(250);
 
   useEffect(() => {
     if (mapDivRef.current.matches(".leaflet-container")) return;
@@ -45,17 +57,50 @@ const MapModal = () => {
     if (!marker.current) {
       marker.current = L.marker(latLng, { icon: blueIcon });
       marker.current.addTo(mapInstanceRef.current);
+
+      circle.current = L.circle(latLng, radius);
+      circle.current.addTo(mapInstanceRef.current);
     } else {
       marker.current.setLatLng(latLng);
+      circle.current.setLatLng(latLng);
+      circle.current.setRadius(radius);
     }
-  }, [lat, lng]);
+  }, [lat, lng, radius]);
+
+  const backdrop = useRef();
+
+  useEffect(() => {
+    const onKeyup = (event) => {
+      if (event.key === "Escape") onClose();
+    };
+    window.addEventListener("keyup", onKeyup);
+    const onWindowClick = (event) => {
+      if (event.target === backdrop.current) onClose();
+    };
+    window.addEventListener("click", onWindowClick);
+    return () => {
+      window.removeEventListener("keyup", onKeyup);
+      window.removeEventListener("click", onWindowClick);
+    };
+  }, []);
+
   const children = (
-    <div>
+    <div id="modal-backdrop" ref={backdrop}>
       <div id="map-modal-content">
         <div>
+          <h2 className="text-center">Days</h2>
+          <p>On which days do you commute?</p>
+          {Object.entries(daysOfWeeks)
+            .sort((a, b) => (a[0] === 0 ? 1 : a[0] - b[0]))
+            .map(([number, string]) => (
+              <>
+                <input type="checkbox" value={number} id={`day-${number}`} />
+                <label htmlFor={`day-${number}`}>{`${string} `}</label>
+              </>
+            ))}
           <h2 className="text-center">Create a zone</h2>
-          <h3>Type here the latitude and longitude, or click on the map</h3>
-          <label>
+          <p>Type here the latitude and longitude, or click on the map</p>
+          <label className="display-block">
             Latitude{" "}
             <input
               step="1"
@@ -65,7 +110,7 @@ const MapModal = () => {
               onChange={(e) => setLat(parseInt(e.target.value, 10))}
             />
           </label>
-          <label>
+          <label className="display-block">
             Longitude{" "}
             <input
               step="1"
@@ -73,6 +118,17 @@ const MapModal = () => {
               type="number"
               value={lng}
               onChange={(e) => setLng(parseInt(e.target.value, 10))}
+            />
+          </label>
+          <label className="display-block">
+            Radius {radius} meters{" "}
+            <input
+              step="1"
+              min={0}
+              max={1000}
+              type="range"
+              value={radius}
+              onChange={(e) => setRadius(parseInt(e.target.value, 10))}
             />
           </label>
         </div>

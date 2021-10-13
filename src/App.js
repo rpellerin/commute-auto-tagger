@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import Activities from "./Activities";
 import NavBar from "./NavBar";
 import { loginWithCode, loginWithRefreshToken } from "./services/login";
-import "./App.css";
 import { ReactComponent as ConnectWithStrava } from "./images/btn_strava_connectwith_orange.svg";
 import MapModal from "./MapModal";
+import "./App.css";
 
 const Login = ({ setAccessToken }) => {
   useEffect(() => {
@@ -46,9 +46,15 @@ const useCurrentUser = () => {
 
 const App = () => {
   const { isLoggedIn, accessToken, setAccessToken } = useCurrentUser();
+  const [showCriteria, setShowCriteria] = useState(false);
   return (
     <>
-      <NavBar isLoggedIn={isLoggedIn} accessToken={accessToken} />
+      {showCriteria && <MapModal onClose={() => setShowCriteria(false)} />}
+      <NavBar
+        onOpenCriteria={() => setShowCriteria(true)}
+        isLoggedIn={isLoggedIn}
+        accessToken={accessToken}
+      />
       <div>
         <h3>What's this website?</h3>
         <p>
@@ -62,41 +68,39 @@ const App = () => {
           commute.
         </p>
         <h3>How do we determine potential commutes?</h3>
-        <p>
-          Three criteria:
-          <ul>
-            <li>
-              A bike activity that took places on some specific days of your
-              choice
-            </li>
-            <li>
-              A bike activity that starts or ends in zones your pre-configured
-            </li>
-            <li>
-              A bike activity that you have not tagged as a commute on Strava
-            </li>
-          </ul>
-          <details>
-            <summary>
-              <h3>FAQ</h3>
-            </summary>
-            <h4>Where can I find the source code of this website?</h4>
-            <p>
-              On{" "}
-              <a href="https://github.com/rpellerin/commute-auto-tagger">
-                GitHub
-              </a>
-              .
-            </p>
-            <h4>What do you do with my data?</h4>
-            <p>
-              Nothing, your data never leaves your browser, we do not have a
-              database. We have a back-end that we use to authenticate you on
-              Strava, because we need to hide our Strava API application's
-              credentials, therefore we cannot send it to your browser.
-            </p>
-          </details>
-        </p>
+        <p>Three criteria:</p>
+        <ul>
+          <li>
+            A bike activity that took places on some specific days of your
+            choice
+          </li>
+          <li>
+            A bike activity that starts or ends in zones your pre-configured
+          </li>
+          <li>
+            A bike activity that you have not tagged as a commute on Strava
+          </li>
+        </ul>
+        <details>
+          <summary>
+            <h3>FAQ</h3>
+          </summary>
+          <h4>Where can I find the source code of this website?</h4>
+          <p>
+            On{" "}
+            <a href="https://github.com/rpellerin/commute-auto-tagger">
+              GitHub
+            </a>
+            .
+          </p>
+          <h4>What do you do with my data?</h4>
+          <p>
+            Nothing, your data never leaves your browser, we do not have a
+            database. We have a back-end that we use to authenticate you on
+            Strava, because we need to hide our Strava API application's
+            credentials, therefore we cannot send it to your browser.
+          </p>
+        </details>
       </div>
       <main>
         {isLoggedIn ? (

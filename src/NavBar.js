@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react/cjs/react.development";
 import { getCurrentAccount } from "./services/account";
 
-const NavBar = ({ isLoggedIn, accessToken }) => {
+const NavBar = ({ isLoggedIn, accessToken, onOpenCriteria }) => {
   const [account, setAccount] = useState();
   useEffect(() => {
     getCurrentAccount({ accessToken }).then((account) => {
@@ -15,7 +15,7 @@ const NavBar = ({ isLoggedIn, accessToken }) => {
       <h1>Commute Auto Tagger</h1>
       {isLoggedIn && (
         <>
-          <button>Configure my critera</button>
+          <button onClick={onOpenCriteria}>Configure my critera</button>
           <a
             href={`https://www.strava.com/athletes/${account.id}`}
             target="_blank"

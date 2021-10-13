@@ -1,4 +1,4 @@
-.modal-wrapper > div {
+.modal-wrapper > div#modal-backdrop {
   position: absolute;
   top: 0;
   left: 0;
@@ -23,7 +23,7 @@
   flex: 1 0 auto;
 }
 
-#map-modal-content label {
+label.display-block {
   display: block;
   padding: 5px 0;
 }
