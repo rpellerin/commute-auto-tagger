@@ -4,6 +4,7 @@ import "leaflet/dist/leaflet.css";
 import { useEffect, useRef, useState } from "react";
 import MarkerIcon from "leaflet/dist/images/marker-icon.png";
 import "./MapModal.css";
+import { Fragment } from "react";
 
 let modalWrapper = document.querySelector(".modal-wrapper");
 if (!modalWrapper) {
@@ -19,13 +20,13 @@ const blueIcon = L.icon({
 });
 
 const daysOfWeeks = {
-  0: "Sunday",
   1: "Monday",
   2: "Tuesday",
   3: "Wednesday",
   4: "Thursday",
   5: "Friday",
   6: "Saturday",
+  7: "Sunday",
 };
 
 const MapModal = ({ onClose }) => {
@@ -84,20 +85,36 @@ const MapModal = ({ onClose }) => {
     };
   }, []);
 
+  const [checkedDays, setCheckedDays] = useState([1, 2, 3, 4, 5]);
+
   const children = (
     <div id="modal-backdrop" ref={backdrop}>
       <div id="map-modal-content">
         <div>
           <h2 className="text-center">Days</h2>
           <p>On which days do you commute?</p>
-          {Object.entries(daysOfWeeks)
-            .sort((a, b) => (a[0] === 0 ? 1 : a[0] - b[0]))
-            .map(([number, string]) => (
-              <>
-                <input type="checkbox" value={number} id={`day-${number}`} />
+          {Object.entries(daysOfWeeks).map(([number, string]) => {
+            const value = parseInt(number, 10) % 7;
+            const checked = checkedDays.includes(value);
+            return (
+              <Fragment key={number}>
+                <input
+                  type="checkbox"
+                  value={value}
+                  checked={checked}
+                  onChange={() =>
+                    setCheckedDays((days) =>
+                      checked
+                        ? days.filter((d) => d !== value)
+                        : [...days, value]
+                    )
+                  }
+                  id={`day-${number}`}
+                />
                 <label htmlFor={`day-${number}`}>{`${string} `}</label>
-              </>
-            ))}
+              </Fragment>
+            );
+          })}
           <h2 className="text-center">Create a zone</h2>
           <p>Type here the latitude and longitude, or click on the map</p>
           <label className="display-block">
