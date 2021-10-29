@@ -22,7 +22,7 @@ const Login = ({ setAccessToken }) => {
   return (
     <div className="text-center">
       <a
-        href={`https://www.strava.com/oauth/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&response_type=code&redirect_uri=http://localhost:3000/exchange_token&approval_prompt=auto&scope=read,activity:read_all,activity:write_all`}
+        href={`https://www.strava.com/oauth/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&response_type=code&redirect_uri=http://localhost:3000/exchange_token&approval_prompt=auto&scope=read,activity:read_all,activity:write`}
       >
         <ConnectWithStrava />
       </a>
@@ -47,9 +47,23 @@ const useCurrentUser = () => {
 const App = () => {
   const { isLoggedIn, accessToken, setAccessToken } = useCurrentUser();
   const [showCriteria, setShowCriteria] = useState(false);
+  const [lat, setLat] = useState(52.521465);
+  const [lng, setLng] = useState(13.413099);
+  const [radius, setRadius] = useState(250);
+
   return (
     <>
-      {showCriteria && <MapModal onClose={() => setShowCriteria(false)} />}
+      {showCriteria && (
+        <MapModal
+          onClose={() => setShowCriteria(false)}
+          lat={lat}
+          lng={lng}
+          radius={radius}
+          setLat={setLat}
+          setLng={setLng}
+          setRadius={setRadius}
+        />
+      )}
       <NavBar
         onOpenCriteria={() => setShowCriteria(true)}
         isLoggedIn={isLoggedIn}
@@ -104,7 +118,12 @@ const App = () => {
       </div>
       <main>
         {isLoggedIn ? (
-          <Activities accessToken={accessToken} />
+          <Activities
+            accessToken={accessToken}
+            lat={lat}
+            lng={lng}
+            radius={radius}
+          />
         ) : (
           <Login setAccessToken={setAccessToken} />
         )}

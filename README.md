@@ -2,7 +2,7 @@
 
 # How To
 
-```javascript
+```shell
 npm install
 REACT_APP_CLIENT_ID=123 REACT_APP_CLIENT_SECRET=abc456 npm run start
 ```

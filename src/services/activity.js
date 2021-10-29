@@ -12,8 +12,11 @@ export const toggleCommuteMark = ({ activity, accessToken }) =>
 
 const isPotentialCommuteRide = (
   activity,
+  lat,
+  lng,
+  radius,
   days = [1, 2, 3, 4, 5],
-  zones = [{ lat: 52.491615, lng: 13.387418 }]
+  zones = [{ lat: 52.491615, lng: 13.387418, radius: 250 }]
 ) => {
   if (activity.commute) return false;
   const startDate = new Date(activity.start_date);
@@ -38,13 +41,13 @@ const isPotentialCommuteRide = (
             latitude: activity.end_latlng[0],
             longitude: activity.end_latlng[1],
           },
-          250
+          zone.radius
         ))
   );
   return matchesDays && isInZones;
 };
 
-export const hydateActivity = (activity) => ({
+export const hydrateActivity = (activity) => ({
   ...activity,
   potentialCommute: isPotentialCommuteRide(activity),
 });

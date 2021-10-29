@@ -29,14 +29,14 @@ const daysOfWeeks = {
   7: "Sunday",
 };
 
-const MapModal = ({ onClose }) => {
+const MapModal = ({ onClose, lat, lng, radius, setLat, setLng, setRadius }) => {
   const mapDivRef = useRef();
   const mapInstanceRef = useRef();
   const marker = useRef();
   const circle = useRef();
-  const [lat, setLat] = useState(52.521465);
-  const [lng, setLng] = useState(13.413099);
-  const [radius, setRadius] = useState(250);
+  // const [lat, setLat] = useState(52.521465);
+  // const [lng, setLng] = useState(13.413099);
+  // const [radius, setRadius] = useState(250);
 
   useEffect(() => {
     if (mapDivRef.current.matches(".leaflet-container")) return;
