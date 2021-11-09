@@ -114,7 +114,7 @@ const Filters = ({
   );
 };
 
-const Activities = ({ accessToken, lat, lng, radius }) => {
+const Activities = ({ accessToken, zones }) => {
   const [_activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -150,8 +150,8 @@ const Activities = ({ accessToken, lat, lng, radius }) => {
   }, [accessToken, currentPage]);
 
   const hydratedActivities = useMemo(
-    () => _activities.map(hydrateActivity),
-    [_activities]
+    () => _activities.map((activity) => hydrateActivity(activity, zones)),
+    [_activities, zones]
   );
   return (
     <Filters

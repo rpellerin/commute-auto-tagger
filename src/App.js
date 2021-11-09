@@ -3,7 +3,7 @@ import Activities from "./Activities";
 import NavBar from "./NavBar";
 import { loginWithCode, loginWithRefreshToken } from "./services/login";
 import { ReactComponent as ConnectWithStrava } from "./images/btn_strava_connectwith_orange.svg";
-import MapModal from "./MapModal";
+import CriteriaModal from "./CriteriaModal";
 import "./App.css";
 
 const Login = ({ setAccessToken }) => {
@@ -47,21 +47,25 @@ const useCurrentUser = () => {
 const App = () => {
   const { isLoggedIn, accessToken, setAccessToken } = useCurrentUser();
   const [showCriteria, setShowCriteria] = useState(false);
-  const [lat, setLat] = useState(52.521465);
-  const [lng, setLng] = useState(13.413099);
-  const [radius, setRadius] = useState(250);
+  const zonesInit =
+    localStorage.getItem("zones") !== null
+      ? [
+          {
+            lat: 52.5175672,
+            lng: 13.3981842,
+            radius: 250,
+          },
+        ]
+      : JSON.parse(window.localStorage.getItem("zones"));
+  const [zones, setZones] = useState(zonesInit);
 
   return (
     <>
       {showCriteria && (
-        <MapModal
+        <CriteriaModal
           onClose={() => setShowCriteria(false)}
-          lat={lat}
-          lng={lng}
-          radius={radius}
-          setLat={setLat}
-          setLng={setLng}
-          setRadius={setRadius}
+          zones={zones}
+          setZones={setZones}
         />
       )}
       <NavBar
@@ -118,12 +122,7 @@ const App = () => {
       </div>
       <main>
         {isLoggedIn ? (
-          <Activities
-            accessToken={accessToken}
-            lat={lat}
-            lng={lng}
-            radius={radius}
-          />
+          <Activities accessToken={accessToken} zones={zones} />
         ) : (
           <Login setAccessToken={setAccessToken} />
         )}

@@ -3,7 +3,7 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { useEffect, useRef, useState } from "react";
 import MarkerIcon from "leaflet/dist/images/marker-icon.png";
-import "./MapModal.css";
+import "./CriteriaModal.css";
 import { Fragment } from "react";
 
 let modalWrapper = document.querySelector(".modal-wrapper");
@@ -29,14 +29,12 @@ const daysOfWeeks = {
   7: "Sunday",
 };
 
-const MapModal = ({ onClose, lat, lng, radius, setLat, setLng, setRadius }) => {
+const Zone = ({ zone, index, updateZone }) => {
+  const { lat, lng, radius } = zone;
   const mapDivRef = useRef();
   const mapInstanceRef = useRef();
   const marker = useRef();
   const circle = useRef();
-  // const [lat, setLat] = useState(52.521465);
-  // const [lng, setLng] = useState(13.413099);
-  // const [radius, setRadius] = useState(250);
 
   useEffect(() => {
     if (mapDivRef.current.matches(".leaflet-container")) return;
@@ -47,9 +45,9 @@ const MapModal = ({ onClose, lat, lng, radius, setLat, setLng, setRadius }) => {
     }).addTo(map);
     map.setView([lat, lng], 13);
     map.on("click", (e) => {
-      setLat(e.latlng.lat);
-      setLng(e.latlng.lng);
+      updateZone({ lat: e.latlng.lat, lng: e.latlng.lng, radius });
     });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -68,7 +66,17 @@ const MapModal = ({ onClose, lat, lng, radius, setLat, setLng, setRadius }) => {
     }
   }, [lat, lng, radius]);
 
+  return <div ref={mapDivRef}>{null}</div>;
+};
+
+const CriteriaModal = ({ onClose, zones, setZones }) => {
   const backdrop = useRef();
+  const addAZone = () => {
+    setZones((oldZones) => [...oldZones, oldZones[0]]);
+  };
+  const removeAZone = (index) => {
+    setZones((zones) => zones.filter((_zone, i) => i !== index));
+  };
 
   useEffect(() => {
     const onKeyup = (event) => {
@@ -85,10 +93,19 @@ const MapModal = ({ onClose, lat, lng, radius, setLat, setLng, setRadius }) => {
     };
   }, []);
 
+  useEffect(() => {
+    window.localStorage.setItem("zones", JSON.stringify(zones));
+  }, [zones]);
+
   const [checkedDays, setCheckedDays] = useState([1, 2, 3, 4, 5]);
 
   const children = (
     <div id="modal-backdrop" ref={backdrop}>
+      <div id="map-modal-top">
+        <button id="modal-close-button" onClick={onClose}>
+          x
+        </button>
+      </div>
       <div id="map-modal-content">
         <div>
           <h2 className="text-center">Days</h2>
@@ -115,42 +132,71 @@ const MapModal = ({ onClose, lat, lng, radius, setLat, setLng, setRadius }) => {
               </Fragment>
             );
           })}
-          <h2 className="text-center">Create a zone</h2>
-          <p>Type here the latitude and longitude, or click on the map</p>
-          <label className="display-block">
-            Latitude{" "}
-            <input
-              step="1"
-              min={0}
-              type="number"
-              value={lat}
-              onChange={(e) => setLat(parseInt(e.target.value, 10))}
-            />
-          </label>
-          <label className="display-block">
-            Longitude{" "}
-            <input
-              step="1"
-              min={0}
-              type="number"
-              value={lng}
-              onChange={(e) => setLng(parseInt(e.target.value, 10))}
-            />
-          </label>
-          <label className="display-block">
-            Radius {radius} meters{" "}
-            <input
-              step="1"
-              min={0}
-              max={1000}
-              type="range"
-              value={radius}
-              onChange={(e) => setRadius(parseInt(e.target.value, 10))}
-            />
-          </label>
-        </div>
-        <div ref={mapDivRef} style={{ height: "100%" }}>
-          {null}
+          {zones.map((zone, index) => {
+            const { lat, lng, radius } = zone;
+            const updateZone = (zone) =>
+              setZones((zones) =>
+                zones.map((oldZone, i) =>
+                  i === index ? { ...oldZone, ...zone } : oldZone
+                )
+              );
+
+            return (
+              <div className="criteria-modal-zone">
+                <div>
+                  <h2 className="text-center">Create a zone - zone {index}</h2>
+                  <p>
+                    Type here the latitude and longitude, or click on the map
+                  </p>
+                  <label className="display-block">
+                    Latitude{" "}
+                    <input
+                      step="0.1"
+                      min={0}
+                      type="number"
+                      value={lat}
+                      onChange={(e) =>
+                        updateZone({ lat: parseFloat(e.target.value, 10) })
+                      }
+                    />
+                  </label>
+                  <label className="display-block">
+                    Longitude{" "}
+                    <input
+                      step="0.1"
+                      min={0}
+                      type="number"
+                      value={lng}
+                      onChange={(e) =>
+                        updateZone({ lng: parseFloat(e.target.value, 10) })
+                      }
+                    />
+                  </label>
+                  <label className="display-block">
+                    Radius {radius} meters{" "}
+                    <input
+                      step="1"
+                      min={0}
+                      max={1000}
+                      type="range"
+                      value={radius}
+                      onChange={(e) =>
+                        updateZone({ radius: parseFloat(e.target.value, 10) })
+                      }
+                    />
+                  </label>
+                  {index > 0 && (
+                    <button onClick={() => removeAZone(index)}>
+                      Remove zone
+                    </button>
+                  )}
+                </div>
+                <Zone zone={zone} index={index} updateZone={updateZone} />
+              </div>
+            );
+          })}
+          <button onClick={() => addAZone()}>Add a zone</button>
+          {/* <button onSave={() => setZones([])}>Save</button> */}
         </div>
       </div>
     </div>
@@ -159,4 +205,4 @@ const MapModal = ({ onClose, lat, lng, radius, setLat, setLng, setRadius }) => {
   return ReactDom.createPortal(children, modalWrapper);
 };
 
-export default MapModal;
+export default CriteriaModal;

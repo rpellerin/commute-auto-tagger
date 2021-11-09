@@ -10,14 +10,7 @@ export const toggleCommuteMark = ({ activity, accessToken }) =>
     body: JSON.stringify({ commute: !activity.commute }),
   }).then((response) => response.json());
 
-const isPotentialCommuteRide = (
-  activity,
-  lat,
-  lng,
-  radius,
-  days = [1, 2, 3, 4, 5],
-  zones = [{ lat: 52.491615, lng: 13.387418, radius: 250 }]
-) => {
+const isPotentialCommuteRide = (activity, zones, days = [1, 2, 3, 4, 5]) => {
   if (activity.commute) return false;
   const startDate = new Date(activity.start_date);
   const isBikeRide = activity.type === "Ride";
@@ -47,7 +40,7 @@ const isPotentialCommuteRide = (
   return matchesDays && isInZones;
 };
 
-export const hydrateActivity = (activity) => ({
+export const hydrateActivity = (activity, zones) => ({
   ...activity,
-  potentialCommute: isPotentialCommuteRide(activity),
+  potentialCommute: isPotentialCommuteRide(activity, zones),
 });

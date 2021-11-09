@@ -7,11 +7,16 @@
   background-color: rgba(0, 0, 0, 0.5);
   padding: 50px;
 }
+#map-modal-top {
+  background-color: white;
+  padding: 10px;
+}
 
 #map-modal-content {
   display: flex;
   height: 100%;
   background-color: white;
+  overflow: scroll;
 }
 
 #map-modal-content > div:first-child {
@@ -26,4 +31,18 @@
 label.display-block {
   display: block;
   padding: 5px 0;
+}
+
+.criteria-modal-zone {
+  display: flex;
+  align-items: stretch;
+  margin: 10px 0;
+}
+
+.criteria-modal-zone > div:first-child {
+  flex: 0 0 auto;
+}
+
+.criteria-modal-zone > div:last-child.leaflet-container {
+  flex: 1 0 0;
 }
