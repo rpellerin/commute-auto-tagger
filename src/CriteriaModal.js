@@ -86,12 +86,26 @@ const CriteriaModal = ({ onClose, zones, setZones }) => {
           })}
           {zones.map((zone, index) => {
             const { lat, lng, radius } = zone;
-            const updateZone = (zone) =>
+            const updateZone = (zone) => {
               setZones((zones) =>
                 zones.map((oldZone, i) =>
                   i === index ? { ...oldZone, ...zone } : oldZone
                 )
               );
+            };
+            const handleSubmitLocation = async (event) => {
+              event.preventDefault();
+              const searchLocation = event.target.searchLocation.value;
+              const response = await fetch(
+                `https://nominatim.openstreetmap.org/search/${searchLocation}?format=json&addressdetails=1&limit=1&polygon_svg=1`
+              );
+              const data = await response.json();
+              debugger;
+              updateZone({
+                lng: parseFloat(data[0].lon, 10),
+                lat: parseFloat(data[0].lat, 10),
+              });
+            };
 
             return (
               <div className="criteria-modal-zone">
@@ -125,6 +139,17 @@ const CriteriaModal = ({ onClose, zones, setZones }) => {
                     />
                   </label>
                   <label className="display-block">
+                    Location{" "}
+                    <form onSubmit={(e) => handleSubmitLocation(e)}>
+                      <input
+                        type="text"
+                        placeholder="Search..."
+                        name="searchLocation"
+                      ></input>
+                      <button type="submit">&#x1F50D;</button>
+                    </form>
+                  </label>
+                  <label className="display-block">
                     Radius {radius} meters{" "}
                     <input
                       step="1"
@@ -137,6 +162,7 @@ const CriteriaModal = ({ onClose, zones, setZones }) => {
                       }
                     />
                   </label>
+
                   {index > 0 && (
                     <button onClick={() => removeAZone(index)}>
                       Remove zone
