@@ -44,19 +44,21 @@ const useCurrentUser = () => {
   return { isLoggedIn, accessToken, setAccessToken };
 };
 
+const zonesInit =
+  localStorage.getItem("zones") === null
+    ? [
+        {
+          lat: 52.5175672,
+          lng: 13.3981842,
+          radius: 250,
+        },
+      ]
+    : JSON.parse(window.localStorage.getItem("zones"));
+
 const App = () => {
   const { isLoggedIn, accessToken, setAccessToken } = useCurrentUser();
   const [showCriteria, setShowCriteria] = useState(false);
-  const zonesInit =
-    localStorage.getItem("zones") !== null
-      ? [
-          {
-            lat: 52.5175672,
-            lng: 13.3981842,
-            radius: 250,
-          },
-        ]
-      : JSON.parse(window.localStorage.getItem("zones"));
+
   const [zones, setZones] = useState(zonesInit);
 
   return (

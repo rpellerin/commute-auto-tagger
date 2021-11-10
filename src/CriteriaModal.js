@@ -1,10 +1,8 @@
 import ReactDom from "react-dom";
-import L from "leaflet";
-import "leaflet/dist/leaflet.css";
 import { useEffect, useRef, useState } from "react";
-import MarkerIcon from "leaflet/dist/images/marker-icon.png";
 import "./CriteriaModal.css";
 import { Fragment } from "react";
+import Zone from "./Zone";
 
 let modalWrapper = document.querySelector(".modal-wrapper");
 if (!modalWrapper) {
@@ -12,12 +10,6 @@ if (!modalWrapper) {
   modalWrapper.classList.add("modal-wrapper");
   document.body.appendChild(modalWrapper);
 }
-
-const blueIcon = L.icon({
-  iconUrl: MarkerIcon,
-  iconSize: [25, 41],
-  iconAnchor: [13, 50],
-});
 
 const daysOfWeeks = {
   1: "Monday",
@@ -27,46 +19,6 @@ const daysOfWeeks = {
   5: "Friday",
   6: "Saturday",
   7: "Sunday",
-};
-
-const Zone = ({ zone, index, updateZone }) => {
-  const { lat, lng, radius } = zone;
-  const mapDivRef = useRef();
-  const mapInstanceRef = useRef();
-  const marker = useRef();
-  const circle = useRef();
-
-  useEffect(() => {
-    if (mapDivRef.current.matches(".leaflet-container")) return;
-    const map = L.map(mapDivRef.current);
-    mapInstanceRef.current = map;
-    L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      maxZoom: 18,
-    }).addTo(map);
-    map.setView([lat, lng], 13);
-    map.on("click", (e) => {
-      updateZone({ lat: e.latlng.lat, lng: e.latlng.lng, radius });
-    });
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    const latLng = [lat, lng];
-    if (!marker.current) {
-      marker.current = L.marker(latLng, { icon: blueIcon });
-      marker.current.addTo(mapInstanceRef.current);
-
-      circle.current = L.circle(latLng, radius);
-      circle.current.addTo(mapInstanceRef.current);
-    } else {
-      marker.current.setLatLng(latLng);
-      circle.current.setLatLng(latLng);
-      circle.current.setRadius(radius);
-    }
-  }, [lat, lng, radius]);
-
-  return <div ref={mapDivRef}>{null}</div>;
 };
 
 const CriteriaModal = ({ onClose, zones, setZones }) => {
@@ -101,7 +53,7 @@ const CriteriaModal = ({ onClose, zones, setZones }) => {
 
   const children = (
     <div id="modal-backdrop" ref={backdrop}>
-      <div id="map-modal-top">
+      <div id="criteria-modal-top-noscroll">
         <button id="modal-close-button" onClick={onClose}>
           x
         </button>
@@ -196,7 +148,6 @@ const CriteriaModal = ({ onClose, zones, setZones }) => {
             );
           })}
           <button onClick={() => addAZone()}>Add a zone</button>
-          {/* <button onSave={() => setZones([])}>Save</button> */}
         </div>
       </div>
     </div>
