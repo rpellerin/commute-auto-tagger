@@ -3,7 +3,8 @@ import Activities from "./Activities";
 import NavBar from "./NavBar";
 import { loginWithCode, loginWithRefreshToken } from "./services/login";
 import { ReactComponent as ConnectWithStrava } from "./images/btn_strava_connectwith_orange.svg";
-import CriteriaModal from "./CriteriaModal";
+import CriteriaModal, { defaultZone } from "./CriteriaModal";
+import { v4 as uuidv4 } from "uuid";
 import "./App.css";
 
 const Login = ({ setAccessToken }) => {
@@ -44,16 +45,14 @@ const useCurrentUser = () => {
   return { isLoggedIn, accessToken, setAccessToken };
 };
 
-const zonesInit =
+const zonesInit = (
   localStorage.getItem("zones") === null
-    ? [
-        {
-          lat: 52.5175672,
-          lng: 13.3981842,
-          radius: 250,
-        },
-      ]
-    : JSON.parse(window.localStorage.getItem("zones"));
+    ? [defaultZone]
+    : JSON.parse(window.localStorage.getItem("zones"))
+).map((element) => ({
+  ...element,
+  uuid: uuidv4(),
+}));
 
 const App = () => {
   const { isLoggedIn, accessToken, setAccessToken } = useCurrentUser();
