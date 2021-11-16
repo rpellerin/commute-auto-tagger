@@ -56,7 +56,10 @@ const CriteriaModal = ({ onClose, zones, setZones }) => {
   }, []);
 
   useEffect(() => {
-    window.localStorage.setItem("zones", JSON.stringify(zones));
+    window.localStorage.setItem(
+      "zones",
+      JSON.stringify(zones.map(({ uuid, ...zone }) => zone))
+    );
   }, [zones]);
 
   const [checkedDays, setCheckedDays] = useState([1, 2, 3, 4, 5]);
