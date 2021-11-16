@@ -10,7 +10,7 @@ const blueIcon = L.icon({
   iconAnchor: [13, 50],
 });
 
-const ZoneLeafletMap = ({ zone, index, updateZone }) => {
+const ZoneLeafletMap = ({ zone, updateZone, place }) => {
   const { lat, lng, radius } = zone;
   const mapDivRef = useRef();
   const mapInstanceRef = useRef();
@@ -30,7 +30,14 @@ const ZoneLeafletMap = ({ zone, index, updateZone }) => {
     });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lat, lng]);
+  }, []);
+
+  useEffect(() => {
+    if (mapInstanceRef.current) {
+      mapInstanceRef.current.setView([lat, lng], 13);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [place]);
 
   useEffect(() => {
     const latLng = [lat, lng];

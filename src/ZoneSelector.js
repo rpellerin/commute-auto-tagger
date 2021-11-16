@@ -1,7 +1,10 @@
-import Zone from "./ZoneLeafletMap";
+import { useState } from "react";
+import ZoneLeafletMap from "./ZoneLeafletMap";
 
 const ZoneSelector = ({ zone, index, updateZone, removeZone }) => {
   const { lat, lng, radius } = zone;
+
+  const [place, setPlace] = useState("");
 
   const handleSubmitLocation = async (event) => {
     event.preventDefault();
@@ -14,6 +17,7 @@ const ZoneSelector = ({ zone, index, updateZone, removeZone }) => {
       lng: parseFloat(data[0].lon, 10),
       lat: parseFloat(data[0].lat, 10),
     });
+    setPlace(searchLocation);
   };
 
   return (
@@ -72,7 +76,7 @@ const ZoneSelector = ({ zone, index, updateZone, removeZone }) => {
 
         {<button onClick={removeZone}>Remove zone</button>}
       </div>
-      <Zone zone={zone} index={index} updateZone={updateZone} />
+      <ZoneLeafletMap zone={zone} place={place} updateZone={updateZone} />
     </div>
   );
 };
