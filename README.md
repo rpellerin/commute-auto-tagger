@@ -14,9 +14,10 @@ REACT_APP_CLIENT_ID=123 REACT_APP_CLIENT_SECRET=abc456 npm run start
 - [x] Allow to specify multiple zones and save them accross refreshes (localStorage)
 - [x] Allow lat/lng search through https://nominatim.org/
 - [x] Do not save uuid in local storage.
-- [ ] Recenter the map when searching for a place.
-- [ ] Allow to specify days and save them accross refreshes (localStorage)
+- [x] Recenter the map when searching for a place.
+- [x] Allow to specify days and save them accross refreshes (localStorage)
 - [ ] Add backend
 - [ ] Deploy on Heroku
 - [ ] Clean components
 - [ ] Cache activities in localStorage or IndexDB
+- [ ] Test the app with Jest-Puppeteer

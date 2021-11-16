@@ -1,5 +1,5 @@
 import ReactDom from "react-dom";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import "./CriteriaModal.css";
 import { Fragment } from "react";
 import ZoneSelector from "./ZoneSelector";
@@ -28,7 +28,13 @@ export const defaultZone = {
   radius: 250,
 };
 
-const CriteriaModal = ({ onClose, zones, setZones }) => {
+const CriteriaModal = ({
+  onClose,
+  zones,
+  setZones,
+  checkedDays,
+  setCheckedDays,
+}) => {
   const backdrop = useRef();
   const addZone = () => {
     setZones((oldZones) => [
@@ -53,7 +59,7 @@ const CriteriaModal = ({ onClose, zones, setZones }) => {
       window.removeEventListener("keyup", onKeyup);
       window.removeEventListener("click", onWindowClick);
     };
-  }, []);
+  }, [onClose]);
 
   useEffect(() => {
     window.localStorage.setItem(
@@ -62,7 +68,12 @@ const CriteriaModal = ({ onClose, zones, setZones }) => {
     );
   }, [zones]);
 
-  const [checkedDays, setCheckedDays] = useState([1, 2, 3, 4, 5]);
+  useEffect(() => {
+    window.localStorage.setItem(
+      "checkedDays",
+      JSON.stringify(checkedDays)
+    );
+  }, [checkedDays]);
 
   const children = (
     <div id="modal-backdrop" ref={backdrop}>

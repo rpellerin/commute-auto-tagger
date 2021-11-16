@@ -114,7 +114,7 @@ const Filters = ({
   );
 };
 
-const Activities = ({ accessToken, zones }) => {
+const Activities = ({ accessToken, zones, checkedDays }) => {
   const [_activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -150,8 +150,11 @@ const Activities = ({ accessToken, zones }) => {
   }, [accessToken, currentPage]);
 
   const hydratedActivities = useMemo(
-    () => _activities.map((activity) => hydrateActivity(activity, zones)),
-    [_activities, zones]
+    () =>
+      _activities.map((activity) =>
+        hydrateActivity(activity, zones, checkedDays)
+      ),
+    [_activities, zones, checkedDays]
   );
   return (
     <Filters
