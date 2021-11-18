@@ -16,8 +16,9 @@ REACT_APP_CLIENT_ID=123 REACT_APP_CLIENT_SECRET=abc456 npm run start
 - [x] Do not save uuid in local storage.
 - [x] Recenter the map when searching for a place.
 - [x] Allow to specify days and save them accross refreshes (localStorage)
+- [x] Clean components
+- [x] Modal prevent scrolling
 - [ ] Add backend
 - [ ] Deploy on Heroku
-- [ ] Clean components
 - [ ] Cache activities in localStorage or IndexDB
 - [ ] Test the app with Jest-Puppeteer

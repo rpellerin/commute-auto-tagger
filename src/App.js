@@ -1,35 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Activities from "./Activities";
 import NavBar from "./NavBar";
-import { loginWithCode, loginWithRefreshToken } from "./services/login";
-import { ReactComponent as ConnectWithStrava } from "./images/btn_strava_connectwith_orange.svg";
+import Login from "./Login";
 import CriteriaModal, { defaultZone } from "./CriteriaModal";
 import { v4 as uuidv4 } from "uuid";
 import "./App.css";
-
-const Login = ({ setAccessToken }) => {
-  useEffect(() => {
-    const code = new URL(window.location.href).searchParams?.get("code");
-    const refreshToken = window.localStorage.getItem("refreshToken");
-    if (code) {
-      loginWithCode(code).then((accessToken) => setAccessToken(accessToken));
-    } else if (refreshToken) {
-      loginWithRefreshToken(refreshToken).then((accessToken) =>
-        setAccessToken(accessToken)
-      );
-    }
-  }, [setAccessToken]);
-
-  return (
-    <div className="text-center">
-      <a
-        href={`https://www.strava.com/oauth/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&response_type=code&redirect_uri=http://localhost:3000/exchange_token&approval_prompt=auto&scope=read,activity:read_all,activity:write`}
-      >
-        <ConnectWithStrava />
-      </a>
-    </div>
-  );
-};
 
 const useCurrentUser = () => {
   const [accessToken, setAccessToken] = useState(
