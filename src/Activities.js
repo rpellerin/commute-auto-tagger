@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import ActivityMap from "./ActivityMap";
-import { hydateActivity, toggleCommuteMark } from "./services/activity";
+import { hydrateActivity, toggleCommuteMark } from "./services/activity";
 
 const dateTimeFormat = new Intl.DateTimeFormat("en", {
   timeStyle: "short",
@@ -114,7 +114,7 @@ const Filters = ({
   );
 };
 
-const Activities = ({ accessToken }) => {
+const Activities = ({ accessToken, zones, checkedDays }) => {
   const [_activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -150,8 +150,11 @@ const Activities = ({ accessToken }) => {
   }, [accessToken, currentPage]);
 
   const hydratedActivities = useMemo(
-    () => _activities.map(hydateActivity),
-    [_activities]
+    () =>
+      _activities.map((activity) =>
+        hydrateActivity(activity, zones, checkedDays)
+      ),
+    [_activities, zones, checkedDays]
   );
   return (
     <Filters
