@@ -60,6 +60,10 @@ summary h3 {
   text-align: center;
 }
 
+body main {
+  margin: 1em 0;
+}
+
 body main ul {
   padding: 0;
 }

@@ -45,7 +45,10 @@ const App = () => {
     <>
       {showCriteria && (
         <CriteriaModal
-          onClose={() => setShowCriteria(false)}
+          onClose={() => {
+            setShowCriteria(false);
+            document.body.style.overflow = "auto";
+          }}
           zones={zones}
           setZones={setZones}
           checkedDays={checkedDays}
@@ -53,7 +56,10 @@ const App = () => {
         />
       )}
       <NavBar
-        onOpenCriteria={() => setShowCriteria(true)}
+        onOpenCriteria={() => {
+          setShowCriteria(true);
+          document.body.style.overflow = "hidden";
+        }}
         isLoggedIn={isLoggedIn}
         accessToken={accessToken}
       />

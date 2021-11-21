@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react/cjs/react.development";
+import { useEffect, useState } from "react";
 import { getCurrentAccount } from "./services/account";
 
 const NavBar = ({ isLoggedIn, accessToken, onOpenCriteria }) => {
