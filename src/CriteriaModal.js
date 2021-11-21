@@ -69,61 +69,60 @@ const CriteriaModal = ({
   }, [zones]);
 
   useEffect(() => {
-    window.localStorage.setItem(
-      "checkedDays",
-      JSON.stringify(checkedDays)
-    );
+    window.localStorage.setItem("checkedDays", JSON.stringify(checkedDays));
   }, [checkedDays]);
 
   const children = (
     <div id="modal-backdrop" ref={backdrop}>
-      <div id="criteria-modal-top-noscroll">
-        <button id="modal-close-button" onClick={onClose}>
-          x
-        </button>
-      </div>
-      <div id="map-modal-content">
-        <div>
-          <h2 className="text-center">Days</h2>
-          <p>On which days do you commute?</p>
-          {Object.entries(daysOfWeeks).map(([number, string]) => {
-            const value = parseInt(number, 10) % 7;
-            const checked = checkedDays.includes(value);
-            return (
-              <Fragment key={number}>
-                <input
-                  type="checkbox"
-                  value={value}
-                  checked={checked}
-                  onChange={() =>
-                    setCheckedDays((days) =>
-                      checked
-                        ? days.filter((d) => d !== value)
-                        : [...days, value]
+      <div className="modal-wrapper-height">
+        <div id="criteria-modal-top-noscroll">
+          <button id="modal-close-button" onClick={onClose}>
+            x
+          </button>
+        </div>
+        <div id="map-modal-content">
+          <div>
+            <h2 className="text-center">Days</h2>
+            <p>On which days do you commute?</p>
+            {Object.entries(daysOfWeeks).map(([number, string]) => {
+              const value = parseInt(number, 10) % 7;
+              const checked = checkedDays.includes(value);
+              return (
+                <Fragment key={number}>
+                  <input
+                    type="checkbox"
+                    value={value}
+                    checked={checked}
+                    onChange={() =>
+                      setCheckedDays((days) =>
+                        checked
+                          ? days.filter((d) => d !== value)
+                          : [...days, value]
+                      )
+                    }
+                    id={`day-${number}`}
+                  />
+                  <label htmlFor={`day-${number}`}>{`${string} `}</label>
+                </Fragment>
+              );
+            })}
+            {zones.map((zone, index) => (
+              <ZoneSelector
+                key={zone.uuid}
+                zone={zone}
+                index={index}
+                removeZone={() => removeZone(index)}
+                updateZone={(zone) => {
+                  setZones((zones) =>
+                    zones.map((oldZone, i) =>
+                      i === index ? { ...oldZone, ...zone } : oldZone
                     )
-                  }
-                  id={`day-${number}`}
-                />
-                <label htmlFor={`day-${number}`}>{`${string} `}</label>
-              </Fragment>
-            );
-          })}
-          {zones.map((zone, index) => (
-            <ZoneSelector
-              key={zone.uuid}
-              zone={zone}
-              index={index}
-              removeZone={() => removeZone(index)}
-              updateZone={(zone) => {
-                setZones((zones) =>
-                  zones.map((oldZone, i) =>
-                    i === index ? { ...oldZone, ...zone } : oldZone
-                  )
-                );
-              }}
-            />
-          ))}
-          <button onClick={addZone}>Add a zone</button>
+                  );
+                }}
+              />
+            ))}
+            <button onClick={addZone}>Add a zone</button>
+          </div>
         </div>
       </div>
     </div>
