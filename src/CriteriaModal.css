@@ -7,6 +7,13 @@
   background-color: rgba(0, 0, 0, 0.5);
   padding: 50px;
 }
+
+.modal-wrapper-height {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 #criteria-modal-top-noscroll {
   background-color: white;
   padding: 10px;
@@ -14,9 +21,8 @@
 
 #map-modal-content {
   display: flex;
-  height: 100%;
   background-color: white;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
 #map-modal-content > div:first-child {
@@ -26,6 +32,10 @@
 
 #map-modal-content > div:last-child {
   flex: 1 0 auto;
+}
+
+#map-modal-content h2 {
+  margin-top: 5px;
 }
 
 label.display-block {
@@ -41,6 +51,7 @@ label.display-block {
 
 .criteria-modal-zone > div:first-child {
   flex: 0 0 auto;
+  margin-right: 1em;
 }
 
 .criteria-modal-zone > div:last-child.leaflet-container {
