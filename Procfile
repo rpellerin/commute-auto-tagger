@@ -1,1 +1,1 @@
-web: npm run build && node src/server/stravaGetAccessToken.js
+web: node src/server/stravaGetAccessToken.js
