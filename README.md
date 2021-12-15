@@ -2,10 +2,27 @@
 
 # How To
 
+## Develop locally
+
 ```shell
 npm install
 REACT_APP_CLIENT_ID=123 npm run start
 CLIENT_SECRET=abc456 node src/server/stravaGetAccessToken.js
+```
+
+## Push to production
+
+Pushing to the GitHub `master` branch deploys to production, through GitHub actions.
+
+```shell
+git push origin master
+```
+
+Alternatively, to deploy a specific branch, push it to Heroku:
+
+```shell
+git remote add heroku https://git.heroku.com/my-repo.git # To do once
+git push heroku my-branch:master
 ```
 
 ## TODO
