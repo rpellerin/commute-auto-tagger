@@ -18,7 +18,7 @@ const Login = ({ setAccessToken }) => {
   return (
     <div className="text-center">
       <a
-        href={`https://www.strava.com/oauth/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&response_type=code&redirect_uri=http://localhost:3000/exchange_token&approval_prompt=auto&scope=read,activity:read_all,activity:write`}
+        href={`https://www.strava.com/oauth/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&response_type=code&redirect_uri=${window.location.origin}&approval_prompt=auto&scope=read,activity:read_all,activity:write`}
       >
         <ConnectWithStrava />
       </a>

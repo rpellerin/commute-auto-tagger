@@ -1,12 +1,11 @@
 export const loginWithCode = (code) =>
-  fetch("https://www.strava.com/oauth/token", {
+  fetch("http://localhost:3001/strava-get-access-token", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
       client_id: process.env.REACT_APP_CLIENT_ID,
-      client_secret: process.env.REACT_APP_CLIENT_SECRET,
       code,
       grant_type: "authorization_code",
     }),
@@ -18,21 +17,20 @@ export const loginWithCode = (code) =>
       window.localStorage.setItem("refreshToken", data.refresh_token);
       window.localStorage.setItem("accessToken", data.access_token);
       window.localStorage.setItem("accessTokenExpiresAt", data.expires_at);
-      return data;
+      return data.access_token;
     })
     .catch((error) => {
       console.error("Error:", error);
     });
 
 export const loginWithRefreshToken = (refresh_token) =>
-  fetch("https://www.strava.com/api/v3/oauth/token", {
+  fetch("http://localhost:3001/strava-get-access-token", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
       client_id: process.env.REACT_APP_CLIENT_ID,
-      client_secret: process.env.REACT_APP_CLIENT_SECRET,
       refresh_token,
       grant_type: "refresh_token",
     }),

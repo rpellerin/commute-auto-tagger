@@ -2,10 +2,17 @@
   "name": "commute-auto-tagger",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "npm": "7.5.1",
+    "node": "15.8.0"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
     "geolib": "^3.3.1",
     "leaflet": "^1.7.1",
     "polyline-encoded": "^0.0.9",

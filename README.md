@@ -4,7 +4,8 @@
 
 ```shell
 npm install
-REACT_APP_CLIENT_ID=123 REACT_APP_CLIENT_SECRET=abc456 npm run start
+REACT_APP_CLIENT_ID=123 npm run start
+CLIENT_SECRET=abc456 node src/server/stravaGetAccessToken.js
 ```
 
 ## TODO
@@ -18,9 +19,11 @@ REACT_APP_CLIENT_ID=123 REACT_APP_CLIENT_SECRET=abc456 npm run start
 - [x] Allow to specify days and save them accross refreshes (localStorage)
 - [x] Clean components
 - [x] Modal prevent scrolling
-- [ ] Build and deploy the frontend on Heroku manually
-- [ ] Automatically build and deploy on Heroku on every push to the branch master through Github Actions
-- [ ] Add backend that sends the client secrets to Strava
-- [ ] Automatically deploy the backend and the frontend on Heroku on every push to master
+- [x] Build and deploy the frontend on Heroku manually
+- [x] Add backend that sends the client secrets to Strava
+- [ ] Build and deploy the frontend AND the backend on Heroku manually
+- [ ] Automatically deploy the backend and the frontend on Heroku on every push to master through Github Actions
+- [ ] Deactivate cors in production
 - [ ] Store in localStorage which filters are checked (potential commute, commute, non commute)
+- [ ] Add button logout
 - [ ] Test the app with Jest-Puppeteer
