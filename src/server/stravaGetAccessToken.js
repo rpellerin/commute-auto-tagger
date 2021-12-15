@@ -1,5 +1,4 @@
 const express = require("express");
-const cors = require("cors");
 const bodyParser = require("body-parser");
 const https = require("https");
 
@@ -41,7 +40,7 @@ const port = 3001;
 
 app.use(bodyParser.json());
 
-app.use(cors()); // Allow all origin. Remove in production.
+app.use(express.static("build"));
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
