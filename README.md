@@ -28,3 +28,4 @@ CLIENT_SECRET=abc456 node src/server/stravaGetAccessToken.js
 - [ ] Add button logout
 - [ ] Test the app with Jest-Puppeteer
 - [ ] Mobile friendly CSS
+- [ ] Buy a domain
