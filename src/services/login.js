@@ -1,5 +1,5 @@
 export const loginWithCode = (code) =>
-  fetch("http://localhost:3001/strava-get-access-token", {
+  fetch("/strava-get-access-token", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -24,7 +24,7 @@ export const loginWithCode = (code) =>
     });
 
 export const loginWithRefreshToken = (refresh_token) =>
-  fetch("http://localhost:3001/strava-get-access-token", {
+  fetch("/strava-get-access-token", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

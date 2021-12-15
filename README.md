@@ -21,9 +21,10 @@ CLIENT_SECRET=abc456 node src/server/stravaGetAccessToken.js
 - [x] Modal prevent scrolling
 - [x] Build and deploy the frontend on Heroku manually
 - [x] Add backend that sends the client secrets to Strava
-- [ ] Build and deploy the frontend AND the backend on Heroku manually
+- [x] Build and deploy the frontend AND the backend on Heroku manually
 - [ ] Automatically deploy the backend and the frontend on Heroku on every push to master through Github Actions
 - [ ] Deactivate cors in production
 - [ ] Store in localStorage which filters are checked (potential commute, commute, non commute)
 - [ ] Add button logout
 - [ ] Test the app with Jest-Puppeteer
+- [ ] Mobile friendly CSS
