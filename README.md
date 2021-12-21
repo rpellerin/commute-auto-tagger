@@ -41,6 +41,7 @@ git push heroku my-branch:master
 - [x] Build and deploy the frontend AND the backend on Heroku manually
 - [x] Deactivate cors in production
 - [x] Add Dependabot
+- [ ] [Enable auto merge of Dependabot pull requests](https://docs.github.com/en/code-security/supply-chain-security/keeping-your-dependencies-updated-automatically/automating-dependabot-with-github-actions#enable-auto-merge-on-a-pull-request)
 - [ ] Automatically deploy the backend and the frontend on Heroku on every push to master through Github Actions
 - [ ] Store in localStorage which filters are checked (potential commute, commute, non commute)
 - [ ] Add button logout
