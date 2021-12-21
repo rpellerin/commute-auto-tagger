@@ -10,7 +10,7 @@ export const toggleCommuteMark = ({ activity, accessToken }) =>
     body: JSON.stringify({ commute: !activity.commute }),
   }).then((response) => response.json());
 
-const isPotentialCommuteRide = (activity, zones, checkedDays) => {
+export const isPotentialCommuteRide = (activity, zones, checkedDays) => {
   if (activity.commute) return false;
   const startDate = new Date(activity.start_date);
   const isBikeRide = activity.type === "Ride";
