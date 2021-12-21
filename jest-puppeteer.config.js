@@ -1,7 +1,6 @@
 module.exports = {
   server: {
-    command: "npm run server",
-    port: 3001,
+    command: "PORT=9090 npm run server",
   },
   launch: {
     headless: !!process.env.CI,
