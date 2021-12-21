@@ -25,7 +25,7 @@ export const isPotentialCommuteRide = (activity, zones, checkedDays) => {
             latitude: activity.start_latlng[0],
             longitude: activity.start_latlng[1],
           },
-          zone.radius // 250 meters
+          zone.radius // meters
         )) ||
       (activity.end_latlng.length > 0 &&
         geolib.isPointWithinRadius(
@@ -34,7 +34,7 @@ export const isPotentialCommuteRide = (activity, zones, checkedDays) => {
             latitude: activity.end_latlng[0],
             longitude: activity.end_latlng[1],
           },
-          zone.radius
+          zone.radius // meters
         ))
   );
   return matchesDays && isInZones;
