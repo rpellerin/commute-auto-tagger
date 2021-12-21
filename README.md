@@ -44,7 +44,7 @@ git push heroku my-branch:master
 - [x] Deactivate cors in production
 - [x] Add Dependabot
 - [ ] Store in localStorage which filters are checked (potential commute, commute, non commute) + add test
-- [ ] Add button logout + add test
+- [ ] Add button logout which clears LocalStorage + add test
 - [ ] Mobile friendly CSS
 - [ ] Buy a domain & set up Heroku
 - [ ] Automatically deploy the backend and the frontend on Heroku on every push to master through Github Actions
