@@ -40,10 +40,10 @@ git push heroku my-branch:master
 - [x] Add backend that sends the client secrets to Strava
 - [x] Build and deploy the frontend AND the backend on Heroku manually
 - [x] Deactivate cors in production
+- [x] Add Dependabot
 - [ ] Automatically deploy the backend and the frontend on Heroku on every push to master through Github Actions
 - [ ] Store in localStorage which filters are checked (potential commute, commute, non commute)
 - [ ] Add button logout
 - [ ] Test the app with Jest-Puppeteer
 - [ ] Mobile friendly CSS
 - [ ] Buy a domain
-- [x] Add Dependabot
