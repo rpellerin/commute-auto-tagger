@@ -46,4 +46,4 @@ git push heroku my-branch:master
 - [ ] Test the app with Jest-Puppeteer
 - [ ] Mobile friendly CSS
 - [ ] Buy a domain
-- [ ] Add Dependabot
+- [x] Add Dependabot
