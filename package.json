@@ -28,7 +28,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "npm run test:unit && npm run test:integration",
+    "test:lint": "npm run eslint",
     "test:unit": "react-scripts test",
     "test:integration": "jest -c test/integration/jest.config.js",
     "eject": "react-scripts eject",
