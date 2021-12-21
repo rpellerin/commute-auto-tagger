@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^11.2.7",
+    "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
     "body-parser": "^1.19.0",
     "expect-puppeteer": "^6.0.2",
