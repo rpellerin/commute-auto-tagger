@@ -1,5 +1,7 @@
 # Strava Commute Auto Tagger
 
+[![Node.js CI](https://github.com/rpellerin/commute-auto-tagger/actions/workflows/node.js.yml/badge.svg)](https://github.com/rpellerin/commute-auto-tagger/actions/workflows/node.js.yml)
+
 # How To
 
 ## Develop locally
