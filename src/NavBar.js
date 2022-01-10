@@ -5,7 +5,6 @@ const NavBar = ({ isLoggedIn, accessToken, onOpenCriteria }) => {
   const [account, setAccount] = useState();
   useEffect(() => {
     getCurrentAccount({ accessToken }).then((account) => {
-      console.log({ account });
       setAccount(account);
     });
   }, [accessToken]);
