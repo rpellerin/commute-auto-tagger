@@ -8,6 +8,11 @@ const NavBar = ({ isLoggedIn, accessToken, onOpenCriteria }) => {
       setAccount(account);
     });
   }, [accessToken]);
+
+  const onLogOut = () => {
+    localStorage.clear();
+    window.location.search = "";
+  };
   if (!account) return null;
   return (
     <header>
@@ -29,6 +34,7 @@ const NavBar = ({ isLoggedIn, accessToken, onOpenCriteria }) => {
           >
             <img src={account.profile} alt="Profile" />
           </a>
+          <button onClick={onLogOut}>Log out</button>
         </>
       )}
     </header>

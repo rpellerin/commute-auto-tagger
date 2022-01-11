@@ -46,7 +46,8 @@ git push heroku my-branch:master
 - [x] [Enable auto merge of Dependabot pull requests](https://docs.github.com/en/code-security/supply-chain-security/keeping-your-dependencies-updated-automatically/automating-dependabot-with-github-actions#enable-auto-merge-on-a-pull-request)
 - [x] Test the app with Jest-Puppeteer
 - [x] Store in localStorage which filters are checked (potential commute, commute, non commute) + add test
-- [ ] Add button logout which clears LocalStorage + add test
+- [x] Add button logout which clears LocalStorage + add test
 - [ ] Mobile friendly CSS
 - [ ] Buy a domain & set up Heroku
+- [ ] Tag all selected activities as commute.
 - [ ] Automatically deploy the backend and the frontend on Heroku on every push to master through Github Actions

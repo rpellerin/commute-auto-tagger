@@ -1,0 +1,26 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Jest:run current JavaScript test file",
+      "type": "node",
+      "request": "launch",
+      "env": { "PWDEBUG": "1" },
+      "runtimeArgs": [
+        "--inspect-brk",
+        "${workspaceFolder}/node_modules/.bin/playwright",
+        "test",
+        "--headed",
+        "--config=test/integration/playwright.config.js",
+        "${relativeFile}"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "port": 9229,
+      "outFiles": [
+        "${workspaceFolder}/test/integration/*.js",
+        "!*/node_modules/*"
+      ]
+    }
+  ]
+}
