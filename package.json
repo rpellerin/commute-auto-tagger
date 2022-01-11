@@ -40,7 +40,8 @@
       "react-app/jest"
     ],
     "globals": {
-      "page": true
+      "page": true,
+      "jestPuppeteer": true
     }
   },
   "proxy": "http://localhost:3001",

@@ -52,6 +52,15 @@ const filters = {
   "Non commute": (activity) => !activity.commute,
 };
 
+const checkedFiltersFromLocalStorage =
+  window.localStorage.getItem("checkedFilters");
+const defaultFiltersState = checkedFiltersFromLocalStorage
+  ? JSON.parse(checkedFiltersFromLocalStorage).reduce(
+      (acc, filterName) => ({ ...acc, [filterName]: filters[filterName] }),
+      {}
+    )
+  : filters;
+
 const Filters = ({
   children,
   activities,
@@ -59,7 +68,7 @@ const Filters = ({
   stopInfiniteScroll,
   loading,
 }) => {
-  const [checkedFilters, setCheckeFilters] = useState(filters);
+  const [checkedFilters, setCheckeFilters] = useState(defaultFiltersState);
   const bottomDiv = useRef();
   useEffect(() => {
     if (stopInfiniteScroll || activities.length === 0) return () => null;
@@ -81,6 +90,13 @@ const Filters = ({
     return () => observer.disconnect();
   }, [checkedFilters, activities, loadNextPage, stopInfiniteScroll]);
 
+  useEffect(() => {
+    window.localStorage.setItem(
+      "checkedFilters",
+      JSON.stringify(Object.keys(checkedFilters))
+    );
+  }, [checkedFilters]);
+
   return (
     <>
       <div id="filters">
@@ -91,10 +107,13 @@ const Filters = ({
               type="checkbox"
               checked={!!checkedFilters[labelString]}
               onChange={() =>
-                setCheckeFilters((checkedFilters) => ({
-                  ...checkedFilters,
-                  [labelString]: checkedFilters[labelString] ? undefined : fn,
-                }))
+                setCheckeFilters((checkedFilters) => {
+                  const newCheckedFilters = { ...checkedFilters };
+                  if (checkedFilters[labelString])
+                    delete newCheckedFilters[labelString];
+                  else newCheckedFilters[labelString] = fn;
+                  return newCheckedFilters;
+                })
               }
             />
           </label>
@@ -102,9 +121,10 @@ const Filters = ({
       </div>
       {children(
         activities.filter((activity) =>
-          Object.values(checkedFilters)
-            .filter(Boolean)
-            .reduce((acc, fn) => acc || fn(activity), false)
+          Object.values(checkedFilters).reduce(
+            (acc, fn) => acc || fn(activity),
+            false
+          )
         )
       )}
       <div ref={bottomDiv}>
