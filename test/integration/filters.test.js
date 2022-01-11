@@ -53,6 +53,11 @@ describe("Landing page", () => {
       "//label[contains(., 'Potential commute')]"
     );
     await element.click();
+
+    const unchecked_filter = await page.$(
+      "#filters label:first-child input:not(:checked)"
+    );
+    expect(unchecked_filter).toBeTruthy();
     await page.reload();
     const [first_filter] = await page.$x('//*[@id="filters"]/label[1]/input');
     const [second_filter] = await page.$x('//*[@id="filters"]/label[2]/input');
