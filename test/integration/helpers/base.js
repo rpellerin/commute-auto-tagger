@@ -1,7 +1,11 @@
 const { expect } = require("@playwright/test");
 
 exports.visitLandingPage = async (page) => {
-  await page.goto("http://localhost:9090");
+  await page.goto("http://localhost:9090", { waitUntil: "networkidle" });
+};
+
+exports.login = async (page) => {
+  await page.goto("http://localhost:9090/?code=FAKE_TEST");
 };
 
 exports.clickOnConnectWithStrava = async (

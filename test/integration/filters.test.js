@@ -1,11 +1,11 @@
 const { test, expect } = require("@playwright/test");
-const { assertHeaderPresent, visitLandingPage } = require("./helpers/base");
+const { assertHeaderPresent, login } = require("./helpers/base");
 const { mockStravaGetAccessToken } = require("./helpers/RequestMocker");
 
 test.describe("Filters", () => {
   test.beforeEach(async ({ page }) => {
     await mockStravaGetAccessToken(page);
-    await page.goto("http://localhost:9090/?code=FAKE_TEST");
+    await login(page);
     await assertHeaderPresent(page);
   });
 

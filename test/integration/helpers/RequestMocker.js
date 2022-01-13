@@ -1,3 +1,15 @@
+exports.mockStravaAuthentication = async (page) => {
+  await page.route(
+    /^https:\/\/www\.strava\.com\/oauth\/authorize\?client_id=/,
+    (route) => {
+      route.fulfill({
+        status: 301,
+        headers: { Location: "http://localhost:9090/?code=FAKE_TEST" },
+      });
+    }
+  );
+};
+
 exports.mockStravaGetAccessToken = async (page) => {
   await page.route("/strava-get-access-token", (route) => {
     route.fulfill({
