@@ -7,18 +7,16 @@
     "npm": "8.3.0"
   },
   "dependencies": {
+    "@playwright/test": "^1.17.2",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
     "body-parser": "^1.19.0",
-    "expect-puppeteer": "^6.0.2",
     "express": "^4.17.1",
     "geolib": "^3.3.1",
     "jest": "^27.4.5",
-    "jest-puppeteer": "^6.0.3",
     "leaflet": "^1.7.1",
     "polyline-encoded": "^0.0.9",
-    "puppeteer": "12.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "5.0.0",
@@ -30,7 +28,8 @@
     "build": "react-scripts build",
     "test:lint": "eslint src/ test/",
     "test:unit": "react-scripts test",
-    "test:integration": "jest -c test/integration/jest.config.js",
+    "test:integration": "playwright test --config=test/integration/playwright.config.js",
+    "test:integration:headed": "playwright test --config=test/integration/playwright.config.js --headed",
     "eject": "react-scripts eject",
     "server": "node src/server/stravaGetAccessToken.js"
   },
@@ -38,11 +37,7 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ],
-    "globals": {
-      "page": true,
-      "jestPuppeteer": true
-    }
+    ]
   },
   "proxy": "http://localhost:3001",
   "browserslist": {
