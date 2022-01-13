@@ -10,7 +10,7 @@ on:
     branches: [master]
 
 jobs:
-  build:
+  tests:
     runs-on: ubuntu-latest
 
     steps:
@@ -30,7 +30,28 @@ jobs:
       - run: npm run test:unit
       - run: npm run build
       - run: npm run test:integration
-      - name: Login to Heroku Container registry
+  deploy:
+    runs-on: ubuntu-latest
+    needs: tests
+    if: ${{ github.ref == 'refs/heads/master' }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Because https://devcenter.heroku.com/changelog-items/775
+      - name: Heroku login credentials
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:login
+          HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
+        run: |
+          cat > ~/.netrc <<EOF
+            machine api.heroku.com
+              login $HEROKU_EMAIL
+              password $HEROKU_API_KEY
+            machine git.heroku.com
+              login $HEROKU_EMAIL
+              password $HEROKU_API_KEY
+          EOF
+      - name: Add Git remote to Heroku
+        run: heroku git:remote --app ${{ secrets.HEROKU_APP_NAME }}
+      - name: Git Push to Heroku
+        run: git push heroku $GITHUB_SHA:master --force
