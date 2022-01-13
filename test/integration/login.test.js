@@ -1,13 +1,10 @@
 const { test, expect } = require("@playwright/test");
-const {
-  assertHeaderPresent,
-  visitLandingPage,
-  clickOnConnectWithStrava,
-} = require("./helpers/base");
+const { assertHeaderPresent, visitLandingPage } = require("./helpers/base");
 const {
   mockStravaGetAccessToken,
   mockStravaApiAthlete,
   mockStravaApiActivities,
+  mockStravaAuthentication,
 } = require("./helpers/RequestMocker");
 
 test.describe("Login", () => {
@@ -29,13 +26,13 @@ test.describe("Login", () => {
     const activityName = page.locator('a:text("Bike ride")');
     await expect(activityName).toHaveCount(0);
 
-    await clickOnConnectWithStrava(page, { assertRedirectedToStrava: true });
-    await page.reload({ waitUntil: "networkidle" });
-
+    await mockStravaAuthentication(page);
     await mockStravaGetAccessToken(page);
     await mockStravaApiAthlete(page);
     await mockStravaApiActivities(page);
-    await page.goto("http://localhost:9090/?code=FAKE_TEST");
+
+    await page.click("a[href*=strava] svg");
+
     await assertHeaderPresent(page);
     // ASSERT WE ARE LOGGED IN
     await expect(userName).toBeVisible();
