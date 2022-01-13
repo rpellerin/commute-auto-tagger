@@ -1,6 +1,6 @@
 # Strava Commute Auto Tagger
 
-[![Node.js CI](https://github.com/rpellerin/commute-auto-tagger/actions/workflows/tests-and-deploy.yml/badge.svg)](https://github.com/rpellerin/commute-auto-tagger/actions/workflows/node.js.yml)
+[![Node.js CI](https://github.com/rpellerin/commute-auto-tagger/actions/workflows/tests-and-deploy.yml/badge.svg?branch=master)](https://github.com/rpellerin/commute-auto-tagger/actions/workflows/tests-and-deploy.yml)
 
 https://strava-commute-auto-tagger.herokuapp.com/
 
@@ -10,6 +10,7 @@ https://strava-commute-auto-tagger.herokuapp.com/
 
 ```shell
 npm install
+npx playwright install
 REACT_APP_CLIENT_ID=123 npm run start
 CLIENT_SECRET=abc456 node src/server/stravaGetAccessToken.js
 ```
