@@ -2,6 +2,8 @@
 
 [![Node.js CI](https://github.com/rpellerin/commute-auto-tagger/actions/workflows/node.js.yml/badge.svg)](https://github.com/rpellerin/commute-auto-tagger/actions/workflows/node.js.yml)
 
+https://strava-commute-auto-tagger.herokuapp.com/
+
 # How To
 
 ## Develop locally
@@ -47,7 +49,7 @@ git push heroku my-branch:master
 - [x] Test the app with Jest-Puppeteer
 - [x] Store in localStorage which filters are checked (potential commute, commute, non commute) + add test
 - [x] Add button logout which clears LocalStorage + add test
+- [x] Automatically deploy the backend and the frontend on Heroku on every push to master through Github Actions
 - [ ] Mobile friendly CSS
 - [ ] Buy a domain & set up Heroku
 - [ ] Tag all selected activities as commute.
-- [ ] Automatically deploy the backend and the frontend on Heroku on every push to master through Github Actions
