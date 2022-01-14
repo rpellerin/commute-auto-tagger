@@ -11,8 +11,7 @@ https://strava-commute-auto-tagger.herokuapp.com/
 ```shell
 npm install
 npx playwright install
-REACT_APP_CLIENT_ID=123 npm run start
-CLIENT_SECRET=abc456 node src/server/stravaGetAccessToken.js
+NODE_ENV=development REACT_APP_CLIENT_ID=123 CLIENT_SECRET=abc456 npm run server
 ```
 
 ## Push to production

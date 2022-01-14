@@ -1,6 +1,11 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const https = require("https");
+const middleware = require("webpack-dev-middleware");
+const webpack = require("webpack");
+const webpackConfig = require("react-scripts/config/webpack.config");
+
+const compiler = webpack(webpackConfig("development"));
 
 const httpsOptions = {
   method: "POST",
@@ -39,6 +44,12 @@ const app = express();
 const port = process.env.PORT || 3001;
 
 app.use(bodyParser.json());
+
+app.use(
+  middleware(compiler, {
+    publicPath: "/",
+  })
+);
 
 app.use(express.static("build"));
 
