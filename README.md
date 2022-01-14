@@ -54,3 +54,4 @@ git push heroku my-branch:master
 - [ ] Mobile friendly CSS
 - [ ] Buy a domain & set up Heroku
 - [ ] Tag all selected activities as commute.
+- [ ] To make development easier, instead of launching webpack-dev-server and Express separately, use `webpack-dev-middleware` in `src/server/stravaGetAccessToken.js` so that all we have to launch to develop is the Express server. Launch it if `process.env.NODE_ENV !== 'production' && !process.env.CI`. We might need to eject the React app for that, beforehand.
