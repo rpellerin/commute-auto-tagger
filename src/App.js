@@ -60,7 +60,7 @@ const App = () => {
       <div>
         <h3>What's this website?</h3>
         <p>
-          This website allows you to, after you connected it to your Strava,
+          After you connected it to your Strava, this website allows you to
           list all your Strava activities and find potential commute bike rides,
           that you may want to tag as such.
         </p>
@@ -77,7 +77,7 @@ const App = () => {
             choice
           </li>
           <li>
-            A bike activity that starts or ends in zones your pre-configured
+            A bike activity that starts or ends in zones you pre-configured
           </li>
           <li>
             A bike activity that you have not tagged as a commute on Strava
