@@ -51,6 +51,7 @@ git push heroku my-branch:master
 - [x] Store in localStorage which filters are checked (potential commute, commute, non commute) + add test
 - [x] Add button logout which clears LocalStorage + add test
 - [x] Automatically deploy the backend and the frontend on Heroku on every push to master through Github Actions
+- [ ] Capability to discard a potential commute so that it stops showing up as a potential commute
 - [ ] Mobile friendly CSS
 - [ ] Buy a domain & set up Heroku
 - [ ] Tag all selected activities as commute.
