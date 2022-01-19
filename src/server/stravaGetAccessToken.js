@@ -5,8 +5,6 @@ const middleware = require("webpack-dev-middleware");
 const webpack = require("webpack");
 const webpackConfig = require("react-scripts/config/webpack.config");
 
-const compiler = webpack(webpackConfig("development"));
-
 const httpsOptions = {
   method: "POST",
   headers: {
@@ -45,11 +43,14 @@ const port = process.env.PORT || 3001;
 
 app.use(bodyParser.json());
 
-app.use(
-  middleware(compiler, {
-    publicPath: "/",
-  })
-);
+if (process.env.NODE_ENV === "development") {
+  const compiler = webpack(webpackConfig("development"));
+  app.use(
+    middleware(compiler, {
+      publicPath: "/",
+    })
+  );
+}
 
 app.use(express.static("build"));
 

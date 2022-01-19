@@ -1,11 +1,17 @@
 const { expect } = require("@playwright/test");
 
+const PORT = process.env.CI ? 9090 : 3001;
+const BASE_URL = `http://localhost:${PORT}`;
+
+exports.PORT = PORT;
+exports.BASE_URL = BASE_URL;
+
 exports.visitLandingPage = async (page) => {
-  await page.goto("http://localhost:9090", { waitUntil: "networkidle" });
+  await page.goto(BASE_URL, { waitUntil: "networkidle" });
 };
 
 exports.login = async (page) => {
-  await page.goto("http://localhost:9090/?code=FAKE_TEST");
+  await page.goto(`${BASE_URL}/?code=FAKE_TEST`);
 };
 
 exports.clickOnConnectWithStrava = async (
