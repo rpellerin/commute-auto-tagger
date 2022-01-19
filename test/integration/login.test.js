@@ -1,5 +1,9 @@
 const { test, expect } = require("@playwright/test");
-const { assertHeaderPresent, visitLandingPage } = require("./helpers/base");
+const {
+  assertHeaderPresent,
+  visitLandingPage,
+  BASE_URL,
+} = require("./helpers/base");
 const {
   mockStravaGetAccessToken,
   mockStravaApiAthlete,
@@ -46,6 +50,6 @@ test.describe("Login", () => {
     // ASSERT WE ARE NO LONGER CONNECTED
     await assertHeaderPresent(page);
     await expect(userName).toHaveCount(0);
-    expect(page.url()).toBe("http://localhost:9090/?");
+    expect(page.url()).toBe(`${BASE_URL}/?`);
   });
 });

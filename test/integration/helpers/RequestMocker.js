@@ -1,10 +1,12 @@
+const { BASE_URL } = require("./base");
+
 exports.mockStravaAuthentication = async (page) => {
   await page.route(
     /^https:\/\/www\.strava\.com\/oauth\/authorize\?client_id=/,
     (route) => {
       route.fulfill({
         status: 301,
-        headers: { Location: "http://localhost:9090/?code=FAKE_TEST" },
+        headers: { Location: `${BASE_URL}/?code=FAKE_TEST` },
       });
     }
   );

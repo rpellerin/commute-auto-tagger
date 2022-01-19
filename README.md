@@ -11,8 +11,7 @@ https://strava-commute-auto-tagger.herokuapp.com/
 ```shell
 npm install
 npx playwright install
-REACT_APP_CLIENT_ID=123 npm run start
-CLIENT_SECRET=abc456 node src/server/stravaGetAccessToken.js
+NODE_ENV=development REACT_APP_CLIENT_ID=123 CLIENT_SECRET=abc456 npm run server
 ```
 
 ## Push to production
@@ -29,6 +28,15 @@ Alternatively, to deploy a specific branch, push it to Heroku:
 git remote add heroku https://git.heroku.com/my-repo.git # To do once
 git push heroku my-branch:master
 ```
+
+## Launching tests
+
+You can launch different types of tests:
+
+- Unit: `npm run test:unit`
+- End-to-end: `npm run test:integration:headed`
+
+To launch the integration tests, you need not launch the Express server in a separate terminal. If it is already launched, it will be reused, otherwise a new instance will be spun up for the duration of the tests.
 
 ## TODO
 
@@ -61,4 +69,4 @@ git push heroku my-branch:master
 - [ ] Buy a domain, add favicon, bind the domain to Heroku
 - [ ] Mobile friendly CSS
 - [ ] Heatmap(s) (animated?)
-- [ ] To make development easier, instead of launching webpack-dev-server and Express separately, use `webpack-dev-middleware` in `src/server/stravaGetAccessToken.js` so that all we have to launch to develop is the Express server. Launch it if `process.env.NODE_ENV !== 'production' && !process.env.CI`. We might need to eject the React app for that, beforehand.
+- [ ] Eject the React app
