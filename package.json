@@ -19,13 +19,12 @@
     "polyline-encoded": "^0.0.9",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-scripts": "5.0.0",
+    "react-scripts": "^5.0.0",
     "uuid": "^8.3.2",
     "webpack-dev-middleware": "^5.3.0",
     "webpack-hot-middleware": "^2.25.1"
   },
   "scripts": {
-    "start": "react-scripts start",
     "build": "react-scripts build",
     "test:lint": "eslint src/ test/",
     "test:unit": "react-scripts test",
