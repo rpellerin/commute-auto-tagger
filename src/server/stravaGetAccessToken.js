@@ -1,10 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const https = require("https");
-const webpackDevMiddleware = require("webpack-dev-middleware");
-const webpack = require("webpack");
-const webpackConfig = require("react-scripts/config/webpack.config");
-const webpackHotMiddleware = require("webpack-hot-middleware");
 
 const httpsOptions = {
   method: "POST",
@@ -45,8 +41,12 @@ const port = process.env.PORT || 3001;
 app.use(bodyParser.json());
 
 if (process.env.NODE_ENV === "development") {
+  const webpackDevMiddleware = require("webpack-dev-middleware");
+  const webpack = require("webpack");
+  const webpackConfig = require("react-scripts/config/webpack.config");
+  const webpackHotMiddleware = require("webpack-hot-middleware");
+
   const webpackConfigObject = webpackConfig("development");
-  console.log({ webpackConfigObject });
   webpackConfigObject.plugins.push(new webpack.HotModuleReplacementPlugin());
   webpackConfigObject.entry = [
     "webpack-hot-middleware/client",
