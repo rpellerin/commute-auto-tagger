@@ -29,6 +29,15 @@ git remote add heroku https://git.heroku.com/my-repo.git # To do once
 git push heroku my-branch:master
 ```
 
+## Launching tests
+
+You can launch different types of tests
+
+- Unit: `npm run test:unit`
+- End-to-end: `npm run test:integration:headed`
+
+To launch the integration tests, you need not launch the Express server in a separate terminal. If it is already launched, it will be reused, otherwise a new instance will be spun up for the duration of the tests.
+
 ## TODO
 
 - [x] Disable button while making a PUT call to Strava
