@@ -31,7 +31,7 @@ git push heroku my-branch:master
 
 ## Launching tests
 
-You can launch different types of tests
+You can launch different types of tests:
 
 - Unit: `npm run test:unit`
 - End-to-end: `npm run test:integration:headed`
