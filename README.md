@@ -69,4 +69,4 @@ To launch the integration tests, you need not launch the Express server in a sep
 - [ ] Buy a domain, add favicon, bind the domain to Heroku
 - [ ] Mobile friendly CSS
 - [ ] Heatmap(s) (animated?)
-- [ ] Eject the React app
+- [ ] Eject the React app when https://github.com/pmmmwh/react-refresh-webpack-plugin is released as stable
