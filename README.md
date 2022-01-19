@@ -50,7 +50,14 @@ git push heroku my-branch:master
 - [x] Store in localStorage which filters are checked (potential commute, commute, non commute) + add test
 - [x] Add button logout which clears LocalStorage + add test
 - [x] Automatically deploy the backend and the frontend on Heroku on every push to master through Github Actions
+- [ ] Only display activities of type "Ride"
+- [ ] Do not trigger "infinite scroll" loading of activities when all filters are unchecked
+- [ ] Capability to discard a potential commute so that it stops showing up as a potential commute. To be done through the localStorage.
+- [ ] In the nav bar, add buttons "Import/export my data", to download the content of the localStorage as json, or to import a JSON in the localStorage.
+- [ ] Button "mark all potential commutes as commutes"
+- [ ] Add a button "History" in the nav bar, through which the user sees their last 100 actions. So that they can undo them in case of misclick.
+- [ ] Rename the project's name: omit the "auto" part. "The Strava Commuter"?
+- [ ] Buy a domain, add favicon, bind the domain to Heroku
 - [ ] Mobile friendly CSS
-- [ ] Buy a domain & set up Heroku
-- [ ] Tag all selected activities as commute.
+- [ ] Heatmap(s) (animated?)
 - [ ] Eject the React app
