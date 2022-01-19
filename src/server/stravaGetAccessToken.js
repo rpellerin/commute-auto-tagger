@@ -71,3 +71,11 @@ app.post("/strava-get-access-token", async (req, res) => {
     res.send(`Error: ${e.message}`);
   }
 });
+
+if (process.env.NODE_ENV !== "production") {
+  app.use((_req, res) => {
+    res
+      .status(404)
+      .send("Have you run `REACT_APP_CLIENT_ID=123 npm run build`?");
+  });
+}
