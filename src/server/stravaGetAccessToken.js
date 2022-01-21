@@ -43,7 +43,7 @@ app.use(bodyParser.json());
 if (process.env.NODE_ENV === "development") {
   const webpackDevMiddleware = require("webpack-dev-middleware");
   const webpack = require("webpack");
-  const webpackConfig = require("react-scripts/config/webpack.config");
+  const webpackConfig = require("../../config/webpack.config.js");
   const webpackHotMiddleware = require("webpack-hot-middleware");
 
   const webpackConfigObject = webpackConfig("development");
