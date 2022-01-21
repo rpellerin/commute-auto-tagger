@@ -1,5 +1,3 @@
-"use strict";
-
 const fs = require("fs");
 const path = require("path");
 const webpack = require("webpack");
@@ -30,21 +28,12 @@ const reactRefreshRuntimeEntry = require.resolve("react-refresh/runtime");
 const reactRefreshWebpackPluginRuntimeEntry = require.resolve(
   "@pmmmwh/react-refresh-webpack-plugin"
 );
-const babelRuntimeEntry = require.resolve("babel-preset-react-app");
-const babelRuntimeEntryHelpers = require.resolve(
-  "@babel/runtime/helpers/esm/assertThisInitialized",
-  { paths: [babelRuntimeEntry] }
-);
-const babelRuntimeRegenerator = require.resolve("@babel/runtime/regenerator", {
-  paths: [babelRuntimeEntry],
-});
 
 // Some apps do not need the benefits of saving a web request, so not inlining the chunk
 // makes for a smoother build process.
 const shouldInlineRuntimeChunk = process.env.INLINE_RUNTIME_CHUNK !== "false";
 
 const emitErrorsAsWarnings = process.env.ESLINT_NO_DEV_ERRORS === "true";
-const disableESLintPlugin = process.env.DISABLE_ESLINT_PLUGIN === "true";
 
 const imageInlineSizeLimit = parseInt(
   process.env.IMAGE_INLINE_SIZE_LIMIT || "10000"
@@ -52,11 +41,6 @@ const imageInlineSizeLimit = parseInt(
 
 // Check if TypeScript is setup
 const useTypeScript = fs.existsSync(paths.appTsConfig);
-
-// Check if Tailwind config exists
-const useTailwind = fs.existsSync(
-  path.join(paths.appPath, "tailwind.config.js")
-);
 
 // style files regexes
 const cssRegex = /\.css$/;
@@ -79,7 +63,7 @@ const hasJsxRuntime = (() => {
 
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
-module.exports = function (webpackEnv) {
+function webpackConfigFactory(webpackEnv) {
   const isEnvDevelopment = webpackEnv === "development";
   const isEnvProduction = webpackEnv === "production";
 
@@ -123,36 +107,22 @@ module.exports = function (webpackEnv) {
             // https://github.com/facebook/create-react-app/issues/2677
             ident: "postcss",
             config: false,
-            plugins: !useTailwind
-              ? [
-                  "postcss-flexbugs-fixes",
-                  [
-                    "postcss-preset-env",
-                    {
-                      autoprefixer: {
-                        flexbox: "no-2009",
-                      },
-                      stage: 3,
-                    },
-                  ],
-                  // Adds PostCSS Normalize as the reset css with default options,
-                  // so that it honors browserslist config in package.json
-                  // which in turn let's users customize the target behavior as per their needs.
-                  "postcss-normalize",
-                ]
-              : [
-                  "tailwindcss",
-                  "postcss-flexbugs-fixes",
-                  [
-                    "postcss-preset-env",
-                    {
-                      autoprefixer: {
-                        flexbox: "no-2009",
-                      },
-                      stage: 3,
-                    },
-                  ],
-                ],
+            plugins: [
+              "postcss-flexbugs-fixes",
+              [
+                "postcss-preset-env",
+                {
+                  autoprefixer: {
+                    flexbox: "no-2009",
+                  },
+                  stage: 3,
+                },
+              ],
+              // Adds PostCSS Normalize as the reset css with default options,
+              // so that it honors browserslist config in package.json
+              // which in turn let's users customize the target behavior as per their needs.
+              "postcss-normalize",
+            ],
           },
           sourceMap: isEnvProduction ? shouldUseSourceMap : isEnvDevelopment,
         },
@@ -311,21 +281,7 @@ module.exports = function (webpackEnv) {
         }),
         ...(modules.webpackAliases || {}),
       },
-      plugins: [
-        // Prevents users from importing files from outside of src/ (or node_modules/).
-        // This often causes confusion because we only process files within src/ with babel.
-        // To fix this, we prevent you from importing files out of src/ -- if you'd like to,
-        // please link the files into your node_modules/ and let module-resolution kick in.
-        // Make sure your source files are compiled, as they will not be processed in any way.
-        new ModuleScopePlugin(paths.appSrc, [
-          paths.appPackageJson,
-          reactRefreshRuntimeEntry,
-          reactRefreshWebpackPluginRuntimeEntry,
-          babelRuntimeEntry,
-          babelRuntimeEntryHelpers,
-          babelRuntimeRegenerator,
-        ]),
-      ],
+      plugins: [],
     },
     module: {
       strictExportPresence: true,
@@ -333,7 +289,6 @@ module.exports = function (webpackEnv) {
         // Handle node_modules packages that contain sourcemaps
         shouldUseSourceMap && {
           enforce: "pre",
-          exclude: /@babel(?:\/|\\{1,2})runtime/,
           test: /\.(js|mjs|jsx|ts|tsx|css)$/,
           loader: require.resolve("source-map-loader"),
         },
@@ -392,57 +347,14 @@ module.exports = function (webpackEnv) {
                 and: [/\.(ts|tsx|js|jsx|md|mdx)$/],
               },
             },
-            // Process application JS with Babel.
-            // The preset includes JSX, Flow, TypeScript, and some ESnext features.
-            {
-              test: /\.(js|mjs|jsx|ts|tsx)$/,
-              include: paths.appSrc,
-              loader: require.resolve("babel-loader"),
-              options: {
-                customize: require.resolve(
-                  "babel-preset-react-app/webpack-overrides"
-                ),
-                presets: [
-                  [
-                    require.resolve("babel-preset-react-app"),
-                    {
-                      runtime: hasJsxRuntime ? "automatic" : "classic",
-                    },
-                  ],
-                ],
-
-                plugins: [
-                  isEnvDevelopment &&
-                    shouldUseReactRefresh &&
-                    require.resolve("react-refresh/babel"),
-                ].filter(Boolean),
-                // This is a feature of `babel-loader` for webpack (not Babel itself).
-                // It enables caching results in ./node_modules/.cache/babel-loader/
-                // directory for faster rebuilds.
-                cacheDirectory: true,
-                // See #6846 for context on why cacheCompression is disabled
-                cacheCompression: false,
-                compact: isEnvProduction,
-              },
-            },
             // Process any JS outside of the app with Babel.
             // Unlike the application JS, we only compile the standard ES features.
             {
               test: /\.(js|mjs)$/,
-              exclude: /@babel(?:\/|\\{1,2})runtime/,
               loader: require.resolve("babel-loader"),
               options: {
-                babelrc: false,
-                configFile: false,
                 compact: false,
-                presets: [
-                  [
-                    require.resolve("babel-preset-react-app/dependencies"),
-                    { helpers: true },
-                  ],
-                ],
                 cacheDirectory: true,
-                // See #6846 for context on why cacheCompression is disabled
                 cacheCompression: false,
 
                 // Babel sourcemaps are needed for debugging into node_modules
@@ -697,34 +609,11 @@ module.exports = function (webpackEnv) {
             infrastructure: "silent",
           },
         }),
-      !disableESLintPlugin &&
-        new ESLintPlugin({
-          // Plugin options
-          extensions: ["js", "mjs", "jsx", "ts", "tsx"],
-          formatter: require.resolve("react-dev-utils/eslintFormatter"),
-          eslintPath: require.resolve("eslint"),
-          failOnError: !(isEnvDevelopment && emitErrorsAsWarnings),
-          context: paths.appSrc,
-          cache: true,
-          cacheLocation: path.resolve(
-            paths.appNodeModules,
-            ".cache/.eslintcache"
-          ),
-          // ESLint class options
-          cwd: paths.appPath,
-          resolvePluginsRelativeTo: __dirname,
-          baseConfig: {
-            extends: [require.resolve("eslint-config-react-app/base")],
-            rules: {
-              ...(!hasJsxRuntime && {
-                "react/react-in-jsx-scope": "error",
-              }),
-            },
-          },
-        }),
     ].filter(Boolean),
     // Turn off performance processing because we utilize
     // our own hints via the FileSizeReporter
     performance: false,
   };
-};
+}
+
+module.exports = webpackConfigFactory(process.env.NODE_ENV);

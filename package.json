@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.16.0",
+    "@babel/preset-react": "^7.16.7",
     "@playwright/test": "^1.17.2",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
     "@svgr/webpack": "^5.5.0",
@@ -17,7 +18,6 @@
     "babel-jest": "^27.4.2",
     "babel-loader": "^8.2.3",
     "babel-plugin-named-asset-import": "^0.3.8",
-    "babel-preset-react-app": "^10.0.1",
     "bfj": "^7.0.2",
     "body-parser": "^1.19.0",
     "browserslist": "^4.18.1",
@@ -69,7 +69,7 @@
     "webpack-manifest-plugin": "^4.0.2"
   },
   "scripts": {
-    "build": "node scripts/build.js",
+    "build": "mkdir -p build/ && rm -rf build/* && cp -R public/* build/ && NODE_ENV=production webpack --config config/webpack.config.js",
     "test:lint": "eslint src/ test/",
     "test:unit": "jest",
     "test:integration": "playwright test --config=test/integration/playwright.config.js",
@@ -78,29 +78,18 @@
   },
   "eslintConfig": {
     "extends": [
-      "react-app",
-      "react-app/jest"
+      // "react-app",
+      // "react-app/jest"
     ]
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
+  "browserslist": [
+    "last 2 chrome version",
+    "last 2 firefox version",
+    "last 2 safari version"
+  ],
   "jest": {
     "roots": [
       "<rootDir>/src"
-    ],
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx,ts,tsx}",
-      "!src/**/*.d.ts"
     ],
     "setupFiles": [
       "react-app-polyfill/jsdom"
@@ -114,8 +103,7 @@
     ],
     "testEnvironment": "jsdom",
     "transform": {
-      "^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": "<rootDir>/config/jest/babelTransform.js",
-      "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
+      "^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": "babel-jest",
       "^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
     },
     "transformIgnorePatterns": [
@@ -149,5 +137,8 @@
     "presets": [
       "react-app"
     ]
+  },
+  "devDependencies": {
+    "webpack-cli": "^4.9.1"
   }
 }
