@@ -7,7 +7,7 @@ exports.PORT = PORT;
 exports.BASE_URL = BASE_URL;
 
 exports.visitLandingPage = async (page) => {
-  await page.goto(BASE_URL, { waitUntil: "networkidle" });
+  await page.goto(BASE_URL, { waitUntil: "load" });
 };
 
 exports.login = async (page) => {

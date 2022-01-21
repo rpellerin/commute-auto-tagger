@@ -28,7 +28,7 @@ test.describe("Filters", () => {
 
     await expect(firstFilter).not.toBeChecked();
 
-    await page.reload({ waitUntil: "networkidle" });
+    await page.reload({ waitUntil: "load" });
 
     await expect(firstFilter).not.toBeChecked();
     await expect(secondFilter).toBeChecked();
