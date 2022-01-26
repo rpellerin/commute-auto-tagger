@@ -70,3 +70,4 @@ To launch the integration tests, you need not launch the Express server in a sep
 - [ ] Mobile friendly CSS
 - [ ] Heatmap(s) (animated?)
 - [ ] Eject the React app when https://github.com/pmmmwh/react-refresh-webpack-plugin is released as stable
+- [ ] Migrate the codebase to Typescript
