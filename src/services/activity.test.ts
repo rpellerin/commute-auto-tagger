@@ -1,13 +1,14 @@
-import { isPotentialCommuteRide } from "./activity.js";
+import { isPotentialCommuteRide } from "./activity";
+import { Activity } from "./types/activity.js";
 
 describe("isPotentialCommuteRide", () => {
   describe("when the ride is not a potential commute ride", () => {
     it("returns false when the ride is already a commute", () => {
-      expect(isPotentialCommuteRide({ commute: true })).toBe(false);
+      expect(isPotentialCommuteRide({ commute: true } as Activity, [], [])).toBe(false);
     });
 
     it("returns false when the ride is not a bike ride", () => {
-      expect(isPotentialCommuteRide({ type: "Walking" })).toBe(false);
+      expect(isPotentialCommuteRide({ type: "Walking" } as Activity, [], [])).toBe(false);
     });
 
     it("returns false when the days do not match", () => {
@@ -17,7 +18,7 @@ describe("isPotentialCommuteRide", () => {
             type: "Ride",
             start_latlng: [51, 20],
             start_date: "2021-12-21 09:00", // Tuesday
-          },
+          } as Activity,
           [{ lat: 51, lng: 20, radius: 1 }],
           [0] // Sunday
         )
@@ -33,7 +34,7 @@ describe("isPotentialCommuteRide", () => {
             type: "Ride",
             start_latlng: [51, 20],
             start_date: "2021-12-21 09:00", // Tuesday
-          },
+          } as Activity,
           [{ lat: 51, lng: 20, radius: 1 }],
           [2] // Tuesday
         )
