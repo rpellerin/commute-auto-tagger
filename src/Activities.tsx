@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import ActivityMap from "./ActivityMap";
-import { hydrateActivity, toggleCommuteMark } from "./services/activity";
+import { hydrateActivity, toggleCommuteMark, Zone } from "./services/activity";
+import { Activity, ActivityEnhanced } from "./services/types/activity";
 
 const dateTimeFormat = new Intl.DateTimeFormat("en", {
   timeStyle: "short",
@@ -8,7 +9,7 @@ const dateTimeFormat = new Intl.DateTimeFormat("en", {
   hourCycle: "h23",
 });
 
-const CommuteTagAndAction = ({ activity, accessToken, onEditActivity }) => {
+const CommuteTagAndAction = ({ activity, accessToken, onEditActivity }: {activity: ActivityEnhanced, accessToken: string, onEditActivity: Function}) => {
   const [actionButtonDisabled, setActionButtonDisabled] = useState(false);
 
   const children = activity.commute
@@ -46,39 +47,45 @@ const CommuteTagAndAction = ({ activity, accessToken, onEditActivity }) => {
   );
 };
 
-const filters = {
-  "Potential commute": (activity) => activity.potentialCommute,
-  Commute: (activity) => activity.commute,
-  "Non commute": (activity) => !activity.commute,
+type Filters = {
+  "Potential commute"?: Function
+  Commute?: Function
+  "Non commute"?: Function
+}
+
+const filters: Filters = {
+  "Potential commute": (activity: ActivityEnhanced) => activity.potentialCommute,
+  Commute: (activity: ActivityEnhanced) => activity.commute,
+  "Non commute": (activity: ActivityEnhanced) => !activity.commute,
 };
 
 const checkedFiltersFromLocalStorage =
   window.localStorage.getItem("checkedFilters");
 const defaultFiltersState = checkedFiltersFromLocalStorage
   ? JSON.parse(checkedFiltersFromLocalStorage).reduce(
-      (acc, filterName) => ({ ...acc, [filterName]: filters[filterName] }),
+      (acc: Object, filterName: string) => ({ ...acc, [filterName]: (filters as any)[filterName] }),
       {}
     )
   : filters;
 
-const Filters = ({
+const FiltersBar = ({
   children,
   activities,
   loadNextPage,
   stopInfiniteScroll,
   loading,
-}) => {
+} : {children: any, activities: ActivityEnhanced[], loadNextPage: Function, stopInfiniteScroll: boolean, loading: boolean}) => {
   const [checkedFilters, setCheckeFilters] = useState(defaultFiltersState);
   const bottomDiv = useRef();
   useEffect(() => {
     if (stopInfiniteScroll || activities.length === 0) return () => null;
-    let observer;
+    let observer : any;
 
     let options = {
       threshold: 1.0,
     };
 
-    const callback = (entries) => {
+    const callback = (entries: IntersectionObserverEntry[]) => {
       const entry = entries[0];
       if (entry.isIntersecting) {
         loadNextPage();
@@ -107,7 +114,7 @@ const Filters = ({
               type="checkbox"
               checked={!!checkedFilters[labelString]}
               onChange={() =>
-                setCheckeFilters((checkedFilters) => {
+                setCheckeFilters((checkedFilters: any) => {
                   const newCheckedFilters = { ...checkedFilters };
                   if (checkedFilters[labelString])
                     delete newCheckedFilters[labelString];
@@ -122,20 +129,20 @@ const Filters = ({
       {children(
         activities.filter((activity) =>
           Object.values(checkedFilters).reduce(
-            (acc, fn) => acc || fn(activity),
+            (acc: boolean, fn: any) => acc || fn(activity),
             false
           )
         )
       )}
-      <div ref={bottomDiv}>
+      <div ref={bottomDiv as any}>
         {loading ? "Loading..." : "No more activities to display"}
       </div>
     </>
   );
 };
 
-const Activities = ({ accessToken, zones, checkedDays }) => {
-  const [_activities, setActivities] = useState([]);
+const Activities = ({ accessToken, zones, checkedDays }: {accessToken: string, zones: Zone[], checkedDays: number[] }) => {
+  const [_activities, setActivities]: [Activity[], Function] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const stopInfiniteScroll = useRef(false);
@@ -161,7 +168,7 @@ const Activities = ({ accessToken, zones, checkedDays }) => {
         console.log("Activities", activities);
         if (activities.errors) throw new Error(activities.message);
         if (activities.length === 0) stopInfiniteScroll.current = true;
-        setActivities((oldActivities) => [...oldActivities, ...activities]);
+        setActivities((oldActivities: Activity[]) => [...oldActivities, ...activities]);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -169,7 +176,7 @@ const Activities = ({ accessToken, zones, checkedDays }) => {
       .finally(() => setLoading(false));
   }, [accessToken, currentPage]);
 
-  const hydratedActivities = useMemo(
+  const hydratedActivities: ActivityEnhanced[] = useMemo(
     () =>
       _activities.map((activity) =>
         hydrateActivity(activity, zones, checkedDays)
@@ -177,13 +184,13 @@ const Activities = ({ accessToken, zones, checkedDays }) => {
     [_activities, zones, checkedDays]
   );
   return (
-    <Filters
+    <FiltersBar
       activities={hydratedActivities}
       loadNextPage={loadNextPage}
       stopInfiniteScroll={stopInfiniteScroll.current}
       loading={loading}
     >
-      {(filteredActivities) => (
+      {(filteredActivities: ActivityEnhanced[]) => (
         <>
           <ul>
             {filteredActivities.map((activity) => {
@@ -211,8 +218,8 @@ const Activities = ({ accessToken, zones, checkedDays }) => {
                     <CommuteTagAndAction
                       activity={activity}
                       accessToken={accessToken}
-                      onEditActivity={(editedActivity) =>
-                        setActivities((activities) =>
+                      onEditActivity={(editedActivity: ActivityEnhanced) =>
+                        setActivities((activities: Activity[]) =>
                           activities.map((_activity) =>
                             _activity.id === activity.id
                               ? { ..._activity, ...editedActivity }
@@ -229,7 +236,7 @@ const Activities = ({ accessToken, zones, checkedDays }) => {
           </ul>
         </>
       )}
-    </Filters>
+    </FiltersBar>
   );
 };
 

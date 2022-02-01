@@ -1,4 +1,4 @@
-export const loginWithCode = (code) =>
+export const loginWithCode = (code: string) =>
   fetch("/strava-get-access-token", {
     method: "POST",
     headers: {
@@ -23,7 +23,7 @@ export const loginWithCode = (code) =>
       console.error("Error:", error);
     });
 
-export const loginWithRefreshToken = (refresh_token) =>
+export const loginWithRefreshToken = (refresh_token: string) =>
   fetch("/strava-get-access-token", {
     method: "POST",
     headers: {
