@@ -9,22 +9,21 @@ const dateTimeFormat = new Intl.DateTimeFormat("en", {
   hourCycle: "h23",
 });
 
-const CommuteTagAndAction = ({ activity, accessToken, onEditActivity }: {activity: ActivityEnhanced, accessToken: string, onEditActivity: Function}) => {
+const CommuteTagAndAction = ({ activity, accessToken, onEditActivity }: { activity: ActivityEnhanced, accessToken: string, onEditActivity: Function }) => {
   const [actionButtonDisabled, setActionButtonDisabled] = useState(false);
 
   const children = activity.commute
     ? "Marked as commute "
     : activity.potentialCommute
-    ? "POTENTIAL COMMUTE"
-    : null;
+      ? "POTENTIAL COMMUTE"
+      : null;
 
   return (
     <>
       {children && (
         <div
-          className={`commute-tag ${
-            activity.potentialCommute ? "potential-commute" : ""
-          }`}
+          className={`commute-tag ${activity.potentialCommute ? "potential-commute" : ""
+            }`}
         >
           {children}
         </div>
@@ -63,9 +62,9 @@ const checkedFiltersFromLocalStorage =
   window.localStorage.getItem("checkedFilters");
 const defaultFiltersState = checkedFiltersFromLocalStorage
   ? JSON.parse(checkedFiltersFromLocalStorage).reduce(
-      (acc: Object, filterName: string) => ({ ...acc, [filterName]: (filters as any)[filterName] }),
-      {}
-    )
+    (acc: Object, filterName: string) => ({ ...acc, [filterName]: (filters as any)[filterName] }),
+    {}
+  )
   : filters;
 
 const FiltersBar = ({
@@ -74,12 +73,12 @@ const FiltersBar = ({
   loadNextPage,
   stopInfiniteScroll,
   loading,
-} : {children: any, activities: ActivityEnhanced[], loadNextPage: Function, stopInfiniteScroll: boolean, loading: boolean}) => {
+}: { children: any, activities: ActivityEnhanced[], loadNextPage: Function, stopInfiniteScroll: boolean, loading: boolean }) => {
   const [checkedFilters, setCheckeFilters] = useState(defaultFiltersState);
   const bottomDiv = useRef();
   useEffect(() => {
     if (stopInfiniteScroll || activities.length === 0) return () => null;
-    let observer : any;
+    let observer: any;
 
     let options = {
       threshold: 1.0,
@@ -141,7 +140,7 @@ const FiltersBar = ({
   );
 };
 
-const Activities = ({ accessToken, zones, checkedDays }: {accessToken: string, zones: Zone[], checkedDays: number[] }) => {
+const Activities = ({ accessToken, zones, checkedDays }: { accessToken: string, zones: Zone[], checkedDays: number[] }) => {
   const [_activities, setActivities]: [Activity[], Function] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -165,10 +164,11 @@ const Activities = ({ accessToken, zones, checkedDays }: {accessToken: string, z
     )
       .then((response) => response.json())
       .then((activities) => {
-        console.log("Activities", activities);
         if (activities.errors) throw new Error(activities.message);
         if (activities.length === 0) stopInfiniteScroll.current = true;
-        setActivities((oldActivities: Activity[]) => [...oldActivities, ...activities]);
+        const rideActivities = activities.filter((activity: Activity) => activity.type === "Ride")
+        console.log("rideActivities", rideActivities);
+        setActivities((oldActivities: Activity[]) => [...oldActivities, ...rideActivities]);
       })
       .catch((error) => {
         console.error("Error:", error);
