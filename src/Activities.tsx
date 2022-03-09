@@ -167,7 +167,6 @@ const Activities = ({ accessToken, zones, checkedDays }: { accessToken: string, 
         if (activities.errors) throw new Error(activities.message);
         if (activities.length === 0) stopInfiniteScroll.current = true;
         const rideActivities = activities.filter((activity: Activity) => activity.type === "Ride")
-        console.log("rideActivities", rideActivities);
         setActivities((oldActivities: Activity[]) => [...oldActivities, ...rideActivities]);
       })
       .catch((error) => {
