@@ -59,7 +59,7 @@ To launch the integration tests, you need not launch the Express server in a sep
 - [x] Store in localStorage which filters are checked (potential commute, commute, non commute) + add test
 - [x] Add button logout which clears LocalStorage + add test
 - [x] Automatically deploy the backend and the frontend on Heroku on every push to master through Github Actions
-- [ ] Only display activities of type "Ride"
+- [X] Only display activities of type "Ride"
 - [ ] Do not trigger "infinite scroll" loading of activities when all filters are unchecked
 - [ ] Capability to discard a potential commute so that it stops showing up as a potential commute. To be done through the localStorage.
 - [ ] In the nav bar, add buttons "Import/export my data", to download the content of the localStorage as json, or to import a JSON in the localStorage.
