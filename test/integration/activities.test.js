@@ -1,5 +1,5 @@
 const { test, expect } = require("@playwright/test");
-const { assertHeaderPresent, login, visitLandingPage } = require("./helpers/base");
+const { assertHeaderPresent, login } = require("./helpers/base");
 const { mockStravaGetAccessToken, mockStravaApiAthlete, mockStravaApiActivities } = require("./helpers/RequestMocker");
 
 test.describe("Activities", () => {
