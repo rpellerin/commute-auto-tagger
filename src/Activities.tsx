@@ -75,6 +75,7 @@ const FiltersBar = ({
   loading,
 }: { children: any, activities: ActivityEnhanced[], loadNextPage: Function, stopInfiniteScroll: boolean, loading: boolean }) => {
   const [checkedFilters, setCheckeFilters] = useState(defaultFiltersState);
+  if (Object.keys(checkedFilters).length === 0) stopInfiniteScroll = true;
   const bottomDiv = useRef();
   useEffect(() => {
     if (stopInfiniteScroll || activities.length === 0) return () => null;
@@ -165,8 +166,8 @@ const Activities = ({ accessToken, zones, checkedDays }: { accessToken: string, 
       .then((response) => response.json())
       .then((activities) => {
         if (activities.errors) throw new Error(activities.message);
-        if (activities.length === 0) stopInfiniteScroll.current = true;
         const rideActivities = activities.filter((activity: Activity) => activity.type === "Ride")
+        if (rideActivities.length === 0) stopInfiniteScroll.current = true;
         setActivities((oldActivities: Activity[]) => [...oldActivities, ...rideActivities]);
       })
       .catch((error) => {
